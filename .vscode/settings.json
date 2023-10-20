@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "sstream": "c",
+        "socket.h": "c",
+        "mman.h": "c",
+        "pthread.h": "c"
+    }
+}
