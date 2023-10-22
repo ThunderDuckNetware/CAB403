@@ -11,36 +11,109 @@
 #include <arpa/inet.h>
 #include <sys/time.h>
 
+#include "overseer_structs.h"
+#include "helper_func.h"
 #include "shm_units.h"
 #include "datagrams.h"
 
-// Struct for storing id, address and port
-typedef struct {
-    int id;
-    struct in_addr addr;
-    in_port_t port;
-    char *info[12]; // FAIL_SAFE or FAIL_SECURE for door controllers.
-} id_addr_port;
-
-// Struct for storing TCP thread parameters
-typedef struct {
-    int socket_fd;
-} tcp_thread_params_t;
-
-// Struct for storing UDP thread parameters
-typedef struct {
-    int server_fd;
-    int client_fd;
-    struct sockaddr_in client_addr;
-} udp_thread_params_t;
-
 void *overseer_tcp_accept_thread_func(void *arg);
+
+void init_database(int num_access_code, database_t* database){
+    database->max_num_persons = num_access_code;
+    database->personal_access = malloc(sizeof(personal_access_t) * num_access_code);
+    database->num_persons = 0;
+}
+
+void init_personal_access(personal_access_t* personal_access){
+    personal_access->access_code = "";
+    personal_access->num_floors = 0;
+    personal_access->num_doors = 0;
+    personal_access->num_sectors = 0;
+    personal_access->floors = calloc(1, sizeof(int));
+    personal_access->doors = calloc(1, sizeof(door_access_t));
+    personal_access->access_sectors = calloc(1, sizeof(int));
+}
+
+void init_door(door_access_t* door_access, int token){
+    door_access->door_id = token;
+    door_access->cardreader_id = calloc(1, sizeof(int));
+}
+
+//READ AUTH/CONNECTIONS/DOOR LAYOUT FILES
+//function to read in auth  file
+void read_input(const char* filename, char* type, database_t* database){
+    FILE *file = fopen(filename, "r");  // Open the file for reading
+    if (file == NULL) {
+        perror("Failed to open file");
+        exit(1);
+    }
+
+    while (!feof(file)) {
+    
+        char line_buffer[MAX_LINE_LENGTH];
+
+        while (fgets(line_buffer, sizeof(line_buffer), file) != NULL)  {
+            char words[MAX_CONFIG_WORDS][MAX_CONFIG_WORD_LEN];
+            int wordCount = 0;
+
+            //split the line at " "
+            splitStringBySpaces(line_buffer, words, &wordCount);
+
+            if (strcmp(type, "auth") == 0) {
+                
+                //we have a new access code so add it to our database
+                printf("OVERSEER: adding new person: %s\n", words[0]);
+                personal_access_t new_person;
+                init_personal_access(&new_person);
+                database->personal_access[database->num_persons] = new_person;
+                personal_access_t *current_access = &database->personal_access[database->num_persons];
+                current_access->access_code = words[0];
+
+                for (int i = 1; i < wordCount; i++){
+
+                    //split the word at :
+                    const char* token = strtok((char*)words[i], ":");
+                    while(token != NULL){
+                        if (strcmp(token, "FLOOR") == 0){
+                            printf("OVERSEER: adding floor\n");
+                        } else if (strcmp(token, "DOOR") == 0){
+                            token = strtok(NULL, ":");
+                            printf("OVERSEER adding door: %s\n", token);
+                            //create our new door
+                            door_access_t new_door;
+                            init_door(&new_door, atoi(token));
+
+                            //append it to this persons door list
+                            current_access->doors = appendValueDoor(current_access->doors, current_access->num_doors);
+                            current_access->doors[current_access->num_doors] = new_door;
+
+                            current_access->num_doors++;                        
+                        } 
+                        //go to the end of the word
+                        token = strtok(NULL, ":");
+                    }
+                }
+                database->num_persons++;
+
+            } else if (strcmp(type, "connections") == 0) {
+                //do something
+            } else if (strcmp(type, "layout") == 0) {
+                //do something
+            } else {
+                printf("Invalid type");
+            }    
+
+        }
+    }
+           
+    fclose(file);  // Close the file
+}
 
 int main(int argc, char **argv)
 {
     // Check arguments
     if (argc < 9)
-    {
+    {   printf("num args: %d", argc);
         fprintf(stderr, "{address:port} {door open duration (in microseconds)} {datagram resend delay (in microseconds)} {authorisation file} {connections file} {layout file} {shared memory path} {shared memory offset}");
         exit(1);
     }
@@ -53,6 +126,8 @@ int main(int argc, char **argv)
     const char *connections_file = argv[5];
     const char *layout_file = argv[6];
     const char *shm_path = argv[7];
+    printf("test\n");
+    fflush(stdout);
     int shm_offset = atoi(argv[8]);
 
     // Parse address and port
@@ -60,6 +135,27 @@ int main(int argc, char **argv)
     int overseer_port;
     sscanf(address_port, "%[^:]:%d", overseer_addr_str, &overseer_port);
 
+    //// TESTING ////
+    printf("OVERSEER: address_port: %s\n", address_port);
+    printf("OVERSEER: door_open_duration: %d\n", door_open_duration);
+    printf("OVERSEER: datagram_resend_delay: %d\n", datagram_resend_delay);
+    printf("OVERSEER: authorisation_file: %s\n", authorisation_file);
+    printf("OVERSEER: connections_file: %s\n", connections_file);
+    printf("OVERSEER: layout_file: %s\n", layout_file);
+    printf("OVERSEER: shm_path: %s\n", shm_path);
+    printf("OVERSEER: shm_offset: %d\n", shm_offset);
+
+    //create a place to store our access data.
+    database_t database;
+    int num_access_code = countLines(authorisation_file);
+    init_database(num_access_code, &database);
+
+    read_input(authorisation_file, "auth", &database);
+
+    //TODO (END): free any allocated memory.
+    
+    //// TESTING ////
+/*
     // Bind and Listen on TCP socket
     int overseer_tcp_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (overseer_tcp_fd == -1)
@@ -134,6 +230,7 @@ int main(int argc, char **argv)
     {
  
     }
+*/
 
     return 0;
 }
