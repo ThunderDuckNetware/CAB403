@@ -2,6 +2,13 @@
 #define SHM_UNITS_H
 #include <pthread.h>
 
+//temperature sensor controller
+typedef struct {
+    float temperature;
+    pthread_mutex_t mutex;
+    pthread_cond_t cond;
+} shm_temp_sense_cntrl;
+
 // Shared memory struct for card reader
 typedef struct {
     char scanned[16];

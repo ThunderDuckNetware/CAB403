@@ -1,0 +1,16 @@
+INIT overseer 300000 200000 authorisation.txt connections_file.txt layout.txt
+INIT firealarm 50 3 4000000 reserved_field
+INIT cardreader 1 1500000
+INIT cardreader 2 1500000
+INIT door 1 FAIL_SAFE 1000000
+INIT door 2 FAIL_SECURE 1000000
+INIT tempsensor 1 5000000 6000000 receiver1,receiver2
+INIT tempsensor 2 5000000 6000000 receiver3,receiver4
+INIT callpoint 2500000
+INIT camera 1 2 -30 30 500000
+INIT camera 2 3 -35 35 500000
+INIT destselect 1 2000000
+INIT destselect 2 2000000
+INIT elevator 1 3000000 2000000 1500000 3000000 1
+INIT elevator 2 3000000 2000000 1500000 3000000 2
+SCENARIO
