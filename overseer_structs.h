@@ -1,6 +1,14 @@
+#ifndef OVERSEER_STRUCTS_H
+#define OVERSEER_STRUCTS_H
+
+#include <netinet/in.h>
+#include <sys/socket.h>
+
+
 //door struct
 typedef struct{
     int door_id;
+    int num_cardreaders;
     int *cardreader_id;
 } door_access_t;
 
@@ -17,7 +25,7 @@ typedef struct{
     int num_sectors;
     door_access_t *doors;
     int *access_sectors;
-    int *floors;
+    int *floors; //check
 } personal_access_t;
 
 typedef struct{
@@ -45,3 +53,24 @@ typedef struct {
     int client_fd;
     struct sockaddr_in client_addr;
 } udp_thread_params_t;
+
+
+//shift these to structs if we get a chance.
+typedef struct {
+    database_t *database;
+    fireAlarms_t *fireAlarms;
+    cardReaders_t *cardReaders;
+    doors_t *doors;
+    int port;
+    int* client_socket_ptr;
+    pthread_mutex_t fireAlarms_mutex;
+    pthread_mutex_t cardReaders_mutex;
+    pthread_mutex_t doors_mutex;
+} overseer_thread_data_t;
+
+typedef struct {
+    int client_socket;
+    overseer_thread_data_t* shared_data;
+} client_thread_data_t;
+
+#endif //OVERSEER_STRUCTS_H

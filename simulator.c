@@ -9,10 +9,12 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "helper_func.h"
 #include "shm_units.h"
 #include "device_structs.h"
+#include "helper_func.h"
 #include "init_devices.h"
+
+#define START_PORT 3000
 
 //shared memory names
 char* shmloc_temp_sense = "/shm_temp_sense";
@@ -23,12 +25,12 @@ char* shmloc_overseer = "/shm_overseer";
 char* shmloc_fire_alarm = "/shm_fire_alarm";
 
 //devices collections
-struct overseers overseerCollection;
-struct fireAlarms fireAlarmCollection;
-struct cardReaders cardReaderCollection;
-struct doors doorCollection;
-struct callpoints callpointCollection;
-struct tempSensors tempSensorCollection;
+overseers_t overseerCollection;
+fireAlarms_t fireAlarmCollection;
+cardReaders_t cardReaderCollection;
+doors_t doorCollection;
+callPoints_t callpointCollection;
+tempSensors_t tempSensorCollection;
 
 // track the number of devices
 int num_overseers = 0;
@@ -41,7 +43,7 @@ int num_tempSensors = 0;
 //port number
 int num_ports = 0;
 
-void create_shm(size_t size, int num, char* name){
+void* create_shm(size_t size, int num, char* name){
     int fd;
     size_t total_size = size * num;  // total memory required
 
@@ -71,6 +73,8 @@ void create_shm(size_t size, int num, char* name){
     //Cleanup
     //munmap(baseAddress, total_size);
     close(fd);
+
+    return baseAddress;
 }
 
 
@@ -100,12 +104,12 @@ void read_input(char *argv[]){
             char *token;
 
             // Use strtok to get the first token
-            token = strtok(line_buffer, " ");
+            token = strtok(line_buffer, " \n");
 
             //printf("%s", token);
             if (strcmp(token, "INIT") != 1){
             //next token
-                token = strtok(NULL, " ");
+                token = strtok(NULL, " \n");
                 if (token != NULL) { // check if token is NULL
 
                     char* restOfString = token + strlen(token) + 1;
@@ -113,9 +117,10 @@ void read_input(char *argv[]){
                     if (strcmp(token, "overseer") == 0){
                         printf("%s\n", restOfString);
                         int port = START_PORT + num_ports;
-                        int offset = overseerCollection.num_devices * sizeof(shm_overseer);
+                        int offset = overseerCollection.num_devices * sizeof(shm_overseer_t);
                         printf("offset: %d\n", offset);
-                        overseerCollection.devices[overseerCollection.num_devices] = callDeviceOverseerUsingSplitString(port, restOfString, offset);
+                        shm_overseer_t* overseer_shm_ptr = (shm_overseer_t*) create_shm(sizeof(shm_overseer_t), MAX_OVERSEER, shmloc_overseer);
+                        overseerCollection.devices[overseerCollection.num_devices] = callDeviceOverseerUsingSplitString(port, restOfString, offset, overseer_shm_ptr);
                         overseerCollection.num_devices++;
 /*
                     }else if(strcmp(token, "firealarm") == 0){
@@ -161,36 +166,33 @@ void read_input(char *argv[]){
     fclose(file);  // Close the file
 }
 
-void create_all_shm(){
+void init_collections(){
     //Create our shared memory for each device type
     //Overseer
-    create_shm(sizeof(shm_overseer), MAX_OVERSEER, shmloc_overseer );
     overseerCollection.num_devices = num_overseers;
     overseerCollection.shm_name = shmloc_overseer;
+
     //fireAlarm
-    create_shm(sizeof(shm_firealarm), MAX_FIRE_ALARM, shmloc_fire_alarm  );
     fireAlarmCollection.num_devices = num_fireAlarms;
     fireAlarmCollection.shm_name = shmloc_fire_alarm;
 
-    //cardReader
-    create_shm(sizeof(shm_cardreader), MAX_CARD_READERS, shmloc_card_reader );
+
+    //cardReader 
     cardReaderCollection.num_devices = num_cardReaders;
     cardReaderCollection.shm_name = shmloc_card_reader;
 
     //door
-    create_shm(sizeof(shm_door), MAX_DOORS, shmloc_door );
     doorCollection.num_devices = num_doors;
     doorCollection.shm_name = shmloc_door;
 
     //callpoint
-    create_shm(sizeof(shm_callpoint), MAX_CALLPOINTS, shmloc_callpoint);
     callpointCollection.num_devices = num_callpoints;
     callpointCollection.shm_name = shmloc_callpoint;
 
     //tempsensor
-    create_shm(sizeof(shm_temp_sense_cntrl), MAX_TEMP_SENSORS, shmloc_temp_sense);
     tempSensorCollection.num_devices = num_tempSensors;
     tempSensorCollection.shm_name = shmloc_temp_sense;
+
 }
 
 int main(int argc, char *argv[]){
@@ -199,7 +201,7 @@ int main(int argc, char *argv[]){
     check_input(argc);
     
     //Create our shared memory for each device type
-    create_all_shm();
+    init_collections();
 
     //FUNCTION READ CONFIG
     read_input(argv);
@@ -223,7 +225,7 @@ int main(int argc, char *argv[]){
 
     } else {
         // Parent process
-        printf("SIMULATOR: Spawning Overseer\n");
+        printf("SIMULATOR: Spawning Overseer on port %s\n", overseerCollection.devices->address_port);
         execl("./overseer", "overseer",
             overseerCollection.devices->address_port,
             overseerCollection.devices->door_open_duration,
@@ -238,12 +240,30 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
+    printf("checking shared memory");
+
+    shm_overseer_t *shm_overseer_ptr;
+    int shm_fd = shm_open("/shm_overseer", O_RDWR, 0660); 
+    if (shm_fd == -1)
+    {
+        perror("shm_open");
+        exit(1);
+    }
+
+    shm_overseer_ptr = mmap(NULL, sizeof(shm_overseer_t), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    if (shm_overseer_ptr == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
+
+    char alarm_status = shm_overseer_ptr->security_alarm;
+    printf("alarm status: %c\n", alarm_status);
     //wait 1 sec after starting processes
 
     //wait 1 sec after last event
 
     //terminate all processes and exit 
 
-        
+    //unmap, free, close!    
     return 0;
 }

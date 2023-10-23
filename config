@@ -1,4 +1,4 @@
-INIT overseer 300000 200000 authorisation.txt connections_file.txt layout.txt
+INIT overseer 300000 200000 authorisation.txt connections.txt layout.txt
 INIT firealarm 50 3 4000000 reserved_field
 INIT cardreader 1 1500000
 INIT cardreader 2 1500000
