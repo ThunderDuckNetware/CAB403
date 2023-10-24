@@ -15,6 +15,8 @@
 
 #include "shm_units.h"
 #include "datagrams.h"
+#include "safety_funcs.h"
+
 
 int main(int argc, char **argv)
 {
@@ -32,49 +34,23 @@ int main(int argc, char **argv)
     int max_update_wait = atoi(argv[4]);
     const char *shm_path = argv[5];
     int shm_offset = atoi(argv[6]);
-    int num_receivers = argc - 7;               // The number of receivers is all the arguments beyond the first 7
+    int num_receivers = argc - 7;                   // The number of receivers is all the arguments beyond the first 7
     char *receiver_address_port[num_receivers];
     for (int i = 0; i < num_receivers; i++)
     {
         receiver_address_port[i] = argv[7 + i];
     }
 
-    // // Print all arguments
-    // printf("Printing all arguments:\n");
-    // for (int i = 0; i < argc; i++)
-    // {
-    //     printf("argv[%d] = %s\n", i, argv[i]);
-    // }    
-
     // Open shared memory
-    int shm_fd = shm_open(shm_path, O_RDWR, 0);
-    if (shm_fd == -1)
-    {
-        perror("shm_open");
-        exit(1);
-    }
-    // Get shared memory size
-    struct stat shm_stat;
-    if (fstat(shm_fd, &shm_stat) == -1)
-    {
-        perror("fstat");
-        exit(1);
-    }
-    // Map shared memory
-    char *shm = mmap(NULL, shm_stat.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shm == MAP_FAILED)
-    {
-        perror("mmap");
-        exit(1);
-    }
+    char *shm = open_shared_memory(shm_path);
     shm_tempsensor_t *shm_ts = (shm_tempsensor_t *)(shm + shm_offset);
 
     // Parse address and port of this sensor
     char ts_addr_str[100];
     int ts_port;
-    sscanf(address_port, "%[^:]:%d", ts_addr_str, &ts_port);
+    sscanf(address_port, "%99[^:]:%d", ts_addr_str, &ts_port);
 
-    // Create UDP socket and bind
+    // Create UDP socket, setup address and bind
     int ts_fd = socket(AF_INET, SOCK_DGRAM, 0);
     if (ts_fd == -1)
     {
@@ -104,6 +80,7 @@ int main(int argc, char **argv)
     int total_update_waittime;
 
     // Normal Operation
+    pthread_mutex_lock(&shm_ts->mutex);
     for (;;)
     {   
         if (!first_iteration)
@@ -115,33 +92,16 @@ int main(int argc, char **argv)
             int delta_microseconds = current_time.tv_usec - last_update_time.tv_usec;
             total_update_waittime = (delta_seconds * 1000000) + delta_microseconds;
 
-            // printf("Temperature in here: %f\n", temperature);
-
             // Update old_temperature
             old_temperature = temperature;
-
-            // printf("The old temperature is: %f\n", old_temperature);
-            // printf("Total update waittime: %d\n", total_update_waittime);
         }
 
         // Get a temp reading off this sensor
-        pthread_mutex_lock(&shm_ts->mutex);
         temperature = shm_ts->temperature;
         pthread_mutex_unlock(&shm_ts->mutex);
 
-        // printf("Temperature: %f\n", temperature);
-        // printf("Old Temperature: %f\n", old_temperature);
-        // printf("First Iteration: %d\n", first_iteration);
-        // printf("Total Update Waittime: %d\n", total_update_waittime);
-        // printf("Max Update Wait: %d\n", max_update_wait);
-
         if ((first_iteration) || (temperature != old_temperature) || (total_update_waittime > max_update_wait))
         {
-            if (!first_iteration)
-            {
-                printf("Temperature changed or max update waittime exceeded\n");
-            }
-            // printf("Sending update\n");
             // Construct a UDP datagram with the sensor's id, the temperature, the
             // current time and with an address list consisting only of this sensor
             temp_update_datagram temp_update;
@@ -163,12 +123,9 @@ int main(int argc, char **argv)
                 char *receiver_address_port_str = receiver_address_port[i];
                 char receiver_addr_str[100];
                 int receiver_port;
-                sscanf(receiver_address_port_str, "%[^:]:%d", receiver_addr_str, &receiver_port);
+                sscanf(receiver_address_port_str, "%99[^:]:%d", receiver_addr_str, &receiver_port);
 
-                // printf("Receiver address: %s\n", receiver_addr_str);
-                // printf("Receiver port: %d\n", receiver_port);
-
-                // Create Address and send the temp update
+                // Create Address
                 struct sockaddr_in receiver_addr;
                 memset(&receiver_addr, 0, sizeof(receiver_addr));
                 receiver_addr.sin_family = AF_INET;
@@ -178,93 +135,58 @@ int main(int argc, char **argv)
                     perror("inet_pton");
                     exit(1);
                 }
-                int len = sendto(ts_fd, &temp_update, sizeof(temp_update), 0, (struct sockaddr *)&receiver_addr, sizeof(receiver_addr));
+
+                // Create UDP socket and send the message, then close fd
+                int udp_fd = socket(AF_INET, SOCK_DGRAM, 0);
+                if (udp_fd == -1)
+                {
+                    perror("socket");
+                    exit(1);
+                }
+                int len = sendto(udp_fd, &temp_update, sizeof(temp_update), 0, (struct sockaddr *)&receiver_addr, sizeof(receiver_addr));
                 if (len == -1)
                 {
                     perror("sendto");
                     exit(1);
                 }
-                // printf("Sent %d bytes\n", len);
-                // printf("From address %s:%d\n", inet_ntoa(receiver_addr.sin_addr), ntohs(receiver_addr.sin_port));
-                // printf("To address %s:%d\n", inet_ntoa(temp_update.address_list[0].sensor_addr), ntohs(temp_update.address_list[0].sensor_port));
+                if (close(udp_fd) == -1)
+                {
+                    perror("close");
+                    exit(1);
+                }
             }
 
             // Get the current time for calculating the total wait time since the last update
             gettimeofday(&last_update_time, NULL);
-            // printf("Time in seconds: %ld\n", last_update_time.tv_sec);
-            // printf("Time in microseconds: %ld\n", last_update_time.tv_usec);
 
-            // Set first_iteration to 0 after first iteration
+            // Set first_iteration to 0 after first loop
             if (first_iteration)
             {
-                // printf("First iteration\n");
                 first_iteration = 0;
             }
         }
 
-    
-        // Receive a temp update and the address of the sending sensor. Use Non-blocking recvfrom (MSG_DONTWAIT)
+        // Receive a temp update Use Non-blocking recvfrom (MSG_DONTWAIT)
         temp_update_datagram temp_update;
-        struct sockaddr_in sender_addr;
-        socklen_t sender_addr_len = sizeof(sender_addr);
 
-        int len = recvfrom(ts_fd, &temp_update, sizeof(temp_update), MSG_DONTWAIT, (struct sockaddr *)&sender_addr, &sender_addr_len);
-
+        int len = recvfrom(ts_fd, &temp_update, sizeof(temp_update), MSG_DONTWAIT, NULL, NULL);
         if (len > 0)
         {
-            printf("Received update\n");
+            // Increment the address count and add this sensors address to the address list
+            temp_update.address_count += 1;
+            temp_update.address_list[temp_update.address_count].sensor_addr = ts_addr.sin_addr;
+            temp_update.address_list[temp_update.address_count].sensor_port = ts_addr.sin_port;
 
-            // get the temperature, timestamp and address list from it
-            float recv_temp = temp_update.temperature;
-            struct timeval recv_timestamp = temp_update.timestamp;
-            int recv_address_count = temp_update.address_count;
-            struct addr_entry recv_addr_list[recv_address_count];
-            for (int i = 0; i < recv_address_count; i++)
-            {
-                recv_addr_list[i] = temp_update.address_list[i];
-            }
-
-            // Construct a new datagram, adding this sensor's address and port to the address list
-            temp_update_datagram temp_update_response;
-            temp_update_response.header[0] = 'T';
-            temp_update_response.header[1] = 'E';
-            temp_update_response.header[2] = 'M';
-            temp_update_response.header[3] = 'P';
-            temp_update_response.id = id;
-            temp_update_response.timestamp = recv_timestamp;
-            temp_update_response.temperature = recv_temp;
-            temp_update_response.address_count = recv_address_count + 1;                            // Add this sensor to the count
-            for (int i = 0; i < recv_address_count; i++)
-            {
-                temp_update_response.address_list[i] = recv_addr_list[i];
-            }
-            temp_update_response.address_list[recv_address_count].sensor_addr = ts_addr.sin_addr;
-            temp_update_response.address_list[recv_address_count].sensor_port = ts_addr.sin_port;
-
-            // // Print the addresses on the datagram
-            // printf("Addresses on the datagram:\n");
-            // for (int i = 0; i < temp_update_response.address_count; i++)
-            // {
-            //     printf("%s:%d\n", inet_ntoa(temp_update_response.address_list[i].sensor_addr), ntohs(temp_update_response.address_list[i].sensor_port));
-            // }
-
-            // // Print the addresses on this sensors receiver list
-            // printf("Addresses on this sensors receiver list:\n");
-            // for (int i = 0; i < num_receivers; i++)
-            // {
-            //     printf("%s\n", receiver_address_port[i]);
-            // }
-
-            // Send the datagram to each receiver that does not appear on the datagram's address list
+            // Send the datagram to each sensor (connected to this sensor) that does not appear on the datagram's address list
             for (int i = 0; i < num_receivers; i++)
             {
                 // Parse receiver address and port
                 char *receiver_address_port_str = receiver_address_port[i];
                 char receiver_addr_str[100];
                 int receiver_port;
-                sscanf(receiver_address_port_str, "%[^:]:%d", receiver_addr_str, &receiver_port);
+                sscanf(receiver_address_port_str, "%99[^:]:%d", receiver_addr_str, &receiver_port);
 
-                // Create Address and send the temp update
+                // Create Address
                 struct sockaddr_in receiver_addr;
                 memset(&receiver_addr, 0, sizeof(receiver_addr));
                 receiver_addr.sin_family = AF_INET;
@@ -274,10 +196,12 @@ int main(int argc, char **argv)
                     perror("inet_pton");
                     exit(1);
                 }
+
+                // Check if the receiver address is in the address list. If not, send the temp update to the receiver
                 int found = 0;
-                for (int j = 0; j < recv_address_count; j++)
+                for (int j = 0; j < temp_update.address_count; j++)
                 {
-                    if ((recv_addr_list[j].sensor_port == receiver_addr.sin_port))
+                    if ((temp_update.address_list[j].sensor_port == receiver_addr.sin_port))
                     {
                         found = 1;
                         break;
@@ -285,26 +209,34 @@ int main(int argc, char **argv)
                 }
                 if (!found)
                 {
-                    int len = sendto(ts_fd, &temp_update_response, sizeof(temp_update_response), 0, (struct sockaddr *)&receiver_addr, sizeof(receiver_addr));
+                    // Create a UDP socket and send the temp update, then close fd
+                    int udp_fd = socket(AF_INET, SOCK_DGRAM, 0);
+                    if (udp_fd == -1)
+                    {
+                        perror("socket");
+                        exit(1);
+                    }
+                    int len = sendto(udp_fd, &temp_update, sizeof(temp_update), 0, (struct sockaddr *)&receiver_addr, sizeof(receiver_addr));
                     if (len == -1)
                     {
                         perror("sendto");
                         exit(1);
                     }
-                    printf("Sent %d bytes. From recv msg\n", len);
+                    if (close(udp_fd) == -1)
+                    {
+                        perror("close");
+                        exit(1);
+                    }
                 }
 
-                // Get the current time
+                // Get the current time used for calculating the total wait time since the last update
                 gettimeofday(&last_update_time, NULL);
                 
             }
-        } else if (len == -1)
-        {
-            // printf("errno is %d\n", errno);
+        } else if (len == -1) {
             if (errno == EAGAIN || errno == EWOULDBLOCK) 
             {
-            // No data available right now, can try again later
-            // printf("No data available right now, can try again later\n");
+                // No data available right now, can try again later
             } else {
                 printf("Error receiving datagram\n");
                 perror("recvfrom");
@@ -313,12 +245,10 @@ int main(int argc, char **argv)
 
         // Lock the mutex and wait on cond using pthread_cond_timedwait to ensure that the maximum waiting time is the max condvar wait
         pthread_mutex_lock(&shm_ts->mutex);
-        // printf("Waiting on cond\n");
         struct timespec ts;
         clock_gettime(CLOCK_REALTIME, &ts);
         ts.tv_nsec += max_condvar_wait * 1000;
         pthread_cond_timedwait(&shm_ts->cond, &shm_ts->mutex, &ts);
-        // printf("Woke up from cond\n");
     }
 
     return 0;

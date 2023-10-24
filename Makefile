@@ -38,10 +38,10 @@ cardreader.o: cardreader.c helper_func.h
 	$(CC) -c $< $(CFLAGS)
 
 # Tempsensor rules (assuming tempsensor.c exists)
-tempsensor: tempsensor.o
+tempsensor: tempsensor.o safety_funcs.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-tempsensor.o: tempsensor.c
+tempsensor.o: tempsensor.c safety_funcs.h
 	$(CC) -c $< $(CFLAGS)
 
 # SAFETY CRITICAL COMPONENTS
