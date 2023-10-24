@@ -12,6 +12,7 @@
 
 #include "shm_units.h"
 #include "datagrams.h"
+#include "helper_func.h"
 
 
 int main(int argc, char **argv)
@@ -24,41 +25,23 @@ int main(int argc, char **argv)
     }
 
     // Read arguments
-    int resend_delay = atoi(argv[1]);
+    int resend_delay = strToInt(argv[1]);
     const char *shm_path = argv[2];
-    int shm_offset = atoi(argv[3]);
+    int shm_offset = strToInt(argv[3]);
     char *fire_alarm_address_port = argv[4];
 
-    // Open shared memory
-    int shm_fd = shm_open(shm_path, O_RDWR, 0);
-    if (shm_fd == -1)
-    {
-        perror("shm_open");
-        exit(1);
-    }
-
-    // Get shared memory size
-    struct stat shm_stat;
-    if (fstat(shm_fd, &shm_stat) == -1)
-    {
-        perror("fstat");
-        exit(1);
-    }
-
-    // Map shared memory
-    char *shm = mmap(NULL, shm_stat.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shm == MAP_FAILED)
-    {
-        perror("mmap");
-        exit(1);
-    }
-    shm_callpoint *shm_cpt = (shm_callpoint *)(shm + shm_offset);
+    // Open and map shared memory
+    void *shm = open_shared_memory(shm_path);
+    shm_callpoint *shm_cpt =  (shm_callpoint *)(shm + shm_offset);
 
     // Parse fire alarm unit address and port
     char fire_alarm_addr_str[100];
     int fire_alarm_port;
-    sscanf(fire_alarm_address_port, "%[^:]:%d", fire_alarm_addr_str, &fire_alarm_port);
-
+    int itemsParsed = sscanf(fire_alarm_address_port, "%99[^:]:%d", fire_alarm_addr_str, &fire_alarm_port); // 99 to prevent buffer overflow
+    if (itemsParsed != 2) {
+        fprintf(stderr, "Invalid address:port format: %s\n", fire_alarm_address_port);
+        exit(1);
+    }
     // Create UDP socket to fire alarm
     int alarm_fd = socket(AF_INET, SOCK_DGRAM, 0);
     if (alarm_fd == -1)
@@ -79,22 +62,22 @@ int main(int argc, char **argv)
     }	
 
     // Set fire_emergency_dgram
-    fire_emergency_dgram packet;
-    packet.header[0] = 'F';
-    packet.header[1] = 'I';
-    packet.header[2] = 'R';
-    packet.header[3] = 'E';
+    fire_emergency_dgram fire_emergency_packet;
+    fire_emergency_packet.header[0] = 'F';
+    fire_emergency_packet.header[1] = 'I';
+    fire_emergency_packet.header[2] = 'R';
+    fire_emergency_packet.header[3] = 'E';
 
     // Normal Operation
     pthread_mutex_lock(&shm_cpt->mutex);
     for (;;)
     {
-        if (shm_cpt->status == '*') 
+        if (shm_cpt->status == '*')     // Fire emergency
         {
             for (;;)
             {
                 // Send FIRE packet to fire alarm
-                sendto(alarm_fd, &packet, sizeof(packet), 0, (struct sockaddr *)&fire_alarm_addr, sizeof(fire_alarm_addr));
+                sendto(alarm_fd, &fire_emergency_packet, sizeof(fire_emergency_packet), 0, (struct sockaddr *)&fire_alarm_addr, sizeof(fire_alarm_addr));
 
                 // Wait for resend_delay
                 usleep(resend_delay);
