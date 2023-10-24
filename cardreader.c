@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 
     // Open and map shared memory
     void *shm = open_shared_memory(shm_path);
-    shm_cardreader *shm_cr =  (shm_cardreader *)(shm + shm_offset);
+    shm_cardreader_t *shm_cr =  (shm_cardreader_t *)(shm + shm_offset);
 
     // Create TCP socket and connect to the overseer address and port
     int overseer_fd = create_tcp_connection(overseer_addr_port, 0);

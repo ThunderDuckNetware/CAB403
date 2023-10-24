@@ -67,7 +67,7 @@ int main(int argc, char **argv)
         perror("mmap");
         exit(1);
     }
-    shm_tempsensor *shm_ts = (shm_tempsensor *)(shm + shm_offset);
+    shm_tempsensor_t *shm_ts = (shm_tempsensor_t *)(shm + shm_offset);
 
     // Parse address and port of this sensor
     char ts_addr_str[100];

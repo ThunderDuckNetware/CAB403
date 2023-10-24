@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 
     // Open and map shared memory
     void *shm = open_shared_memory(shm_path);
-    shm_door *shm_dr =  (shm_door *)(shm + shm_offset);
+    shm_door_t *shm_dr =  (shm_door_t *)(shm + shm_offset);
 
     // Parse overseer address and port
     char overseer_addr_str[100];

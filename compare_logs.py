@@ -36,7 +36,7 @@ print()
 
 # Test Firealarm
 print("Firealarm Tests")
-# print(compare_logs(firealarm_1_reference, firealarm_1_submission))
+print(compare_logs(firealarm_1_reference, firealarm_1_submission))
 print(compare_logs(firealarm_2_reference, firealarm_2_submission))
 print(compare_logs(firealarm_3_reference, firealarm_3_submission))
 print()

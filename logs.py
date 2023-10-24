@@ -1,49 +1,49 @@
 cardreader_1_submission = """
 [00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
-[00.249](0) SIMULATOR: Door sim (#0) started
+[00.249](0) SIMULATOR: Cardreader sim (#0) started
 [00.249](1) SIMULATOR: Cardreader sim (#3) started
 [00.249](2) SIMULATOR: Cardreader sim (#1) started
-[00.249](3) SIMULATOR: Cardreader sim (#2) started
-[00.249](4) SIMULATOR: Cardreader sim (#0) started
+[00.249](3) SIMULATOR: Door sim (#0) started
+[00.249](4) SIMULATOR: Cardreader sim (#2) started
 [00.249](5) SIMULATOR: Door sim (#1) started
-[00.251](1) OVERSEER: Received message from client: CARDREADER 104 HELLO#
-[00.251](1) OVERSEER: Got reg event from cardreader 104
-[00.251](2) OVERSEER: Received message from client: CARDREADER 103 HELLO#
-[00.251](2) OVERSEER: Got reg event from cardreader 103
-[00.251](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4000
-[00.251](3) OVERSEER: Received message from client: CARDREADER 102 HELLO#
-[00.251](0) DOOR.102: Binding addr 127.0.0.1:4002
-[00.251](3) OVERSEER: Got reg event from cardreader 102
-[00.251](2) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4002 FAIL_SECURE#
-[00.251](2) OVERSEER: Registered door #102 @127.0.0.1:4002 (FAIL_SECURE#)
-[00.252](0) DOOR.101: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6592. Overseer addr: 127.0.0.1:4000
+[00.251](1) OVERSEER: Received message from client: CARDREADER 102 HELLO#
+[00.251](1) OVERSEER: Got reg event from cardreader 102
+[00.251](1) OVERSEER: Received message from client: CARDREADER 101 HELLO#
+[00.251](1) OVERSEER: Got reg event from cardreader 101
+[00.251](0) DOOR.101: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6592. Overseer addr: 127.0.0.1:4000
 [00.252](0) DOOR.101: Binding addr 127.0.0.1:4001
 [00.252](2) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4001 FAIL_SAFE#
 [00.252](2) OVERSEER: Registered door #101 @127.0.0.1:4001 (FAIL_SAFE#)
-[00.252](2) OVERSEER: Received message from client: CARDREADER 101 HELLO#
-[00.252](2) OVERSEER: Got reg event from cardreader 101
+[00.252](1) OVERSEER: Received message from client: CARDREADER 103 HELLO#
+[00.252](1) OVERSEER: Got reg event from cardreader 103
+[00.252](3) OVERSEER: Received message from client: CARDREADER 104 HELLO#
+[00.252](3) OVERSEER: Got reg event from cardreader 104
+[00.251](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4000
+[00.253](0) DOOR.102: Binding addr 127.0.0.1:4002
+[00.253](3) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4002 FAIL_SECURE#
+[00.253](3) OVERSEER: Registered door #102 @127.0.0.1:4002 (FAIL_SECURE#)
 [01.299](6) SIMULATOR: Simulated input to overseer: DOOR LIST
-102 127.0.0.1:4002 FAIL_SECURE
 101 127.0.0.1:4001 FAIL_SAFE
+102 127.0.0.1:4002 FAIL_SECURE
 [01.349](6) SIMULATOR: Simulated input to overseer: DOOR OPEN 102
-[01.349](4) SIMULATOR: Cardreader sim (#0): scanned code db4ed0a0bfbb00ac
+[01.349](0) SIMULATOR: Cardreader sim (#0): scanned code db4ed0a0bfbb00ac
 [01.349](0) DOOR.102: Received message: OPEN#
 [01.349](0) DOOR.102: Current status: C
 [01.349](0) DOOR.102: OPENING#
-[01.349](2) OVERSEER: Received message from client: CARDREADER 101 SCANNED db4ed0a0bfbb00ac#
 [01.349](5) SIMULATOR: Door sim (#1) woke up. Status = o
-[01.349](2) OVERSEER: Got scan from cardreader 101: db4ed0a0bfbb00ac
-[01.349](4) SIMULATOR: Cardreader sim (#0): response to scan: Y
+[01.349](3) OVERSEER: Received message from client: CARDREADER 101 SCANNED db4ed0a0bfbb00ac#
+[01.349](3) OVERSEER: Got scan from cardreader 101: db4ed0a0bfbb00ac
+[01.349](0) SIMULATOR: Cardreader sim (#0): response to scan: Y
 [01.349](0) DOOR.101: Received message: OPEN#
 [01.349](0) DOOR.101: Current status: C
 [01.349](0) DOOR.101: OPENING#
-[01.349](2) OVERSEER: Received OPENING# from door
-[01.349](0) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.349](3) OVERSEER: Received OPENING# from door
+[01.349](3) SIMULATOR: Door sim (#0) woke up. Status = o
 [01.359](5) SIMULATOR: Door sim (#1) changed status to = O
 [01.359](0) DOOR.102: OPENED#
-[01.359](0) SIMULATOR: Door sim (#0) changed status to = O
-[01.359](0) DOOR.101: OPENED#
-[01.359](2) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.360](3) SIMULATOR: Door sim (#0) changed status to = O
+[01.360](0) DOOR.101: OPENED#
+[01.360](3) OVERSEER: Received OPENED# from door (should be OPENED#)
 [01.449](6) SIMULATOR: Simulated input to overseer: DOOR CLOSE 102
 [01.449](0) DOOR.102: Received message: CLOSE#
 [01.449](0) DOOR.102: Current status: O
@@ -51,425 +51,425 @@ cardreader_1_submission = """
 [01.449](5) SIMULATOR: Door sim (#1) woke up. Status = c
 [01.459](5) SIMULATOR: Door sim (#1) changed status to = C
 [01.459](0) DOOR.102: CLOSED#
-[01.459](0) DOOR.101: Received message: CLOSE#
-[01.459](0) DOOR.101: Current status: O
-[01.459](0) DOOR.101: CLOSING#
-[01.459](0) SIMULATOR: Door sim (#0) woke up. Status = c
-[01.459](2) OVERSEER: Received CLOSING# from door
-[01.469](0) SIMULATOR: Door sim (#0) changed status to = C
-[01.469](0) DOOR.101: CLOSED#
-[01.469](2) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[01.549](4) SIMULATOR: Cardreader sim (#0): scanned code 2214a7ba5943d923
-[01.549](2) OVERSEER: Received message from client: CARDREADER 101 SCANNED 2214a7ba5943d923#
-[01.549](2) OVERSEER: Got scan from cardreader 101: 2214a7ba5943d923
-[01.549](4) SIMULATOR: Cardreader sim (#0): response to scan: Y
+[01.460](0) DOOR.101: Received message: CLOSE#
+[01.460](0) DOOR.101: Current status: O
+[01.460](0) DOOR.101: CLOSING#
+[01.460](3) OVERSEER: Received CLOSING# from door
+[01.460](3) SIMULATOR: Door sim (#0) woke up. Status = c
+[01.470](3) SIMULATOR: Door sim (#0) changed status to = C
+[01.470](0) DOOR.101: CLOSED#
+[01.470](3) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[01.549](0) SIMULATOR: Cardreader sim (#0): scanned code 2214a7ba5943d923
+[01.549](3) OVERSEER: Received message from client: CARDREADER 101 SCANNED 2214a7ba5943d923#
+[01.549](3) OVERSEER: Got scan from cardreader 101: 2214a7ba5943d923
+[01.549](0) SIMULATOR: Cardreader sim (#0): response to scan: Y
 [01.549](0) DOOR.101: Received message: OPEN#
 [01.549](0) DOOR.101: Current status: C
 [01.549](0) DOOR.101: OPENING#
-[01.549](2) OVERSEER: Received OPENING# from door
-[01.549](0) SIMULATOR: Door sim (#0) woke up. Status = o
-[01.559](0) SIMULATOR: Door sim (#0) changed status to = O
+[01.549](3) OVERSEER: Received OPENING# from door
+[01.549](3) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.559](3) SIMULATOR: Door sim (#0) changed status to = O
 [01.559](0) DOOR.101: OPENED#
-[01.559](2) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.559](3) OVERSEER: Received OPENED# from door (should be OPENED#)
 [01.569](6) SIMULATOR: Simulated input to overseer: DOOR CLOSE 101
 [01.569](0) DOOR.101: Received message: CLOSE#
 [01.569](0) DOOR.101: Current status: O
 [01.569](0) DOOR.101: CLOSING#
-[01.569](0) SIMULATOR: Door sim (#0) woke up. Status = c
-[01.579](0) SIMULATOR: Door sim (#0) changed status to = C
+[01.569](3) SIMULATOR: Door sim (#0) woke up. Status = c
+[01.579](3) SIMULATOR: Door sim (#0) changed status to = C
 [01.579](0) DOOR.101: CLOSED#
-[01.659](0) DOOR.101: Received message: CLOSE#
-[01.659](0) DOOR.101: Current status: C
-[01.659](0) DOOR.101: ALREADY#
-[01.659](2) OVERSEER: Received ALREADY# from door
-[01.749](3) SIMULATOR: Cardreader sim (#2): scanned code db4ed0a0bfbb00ac
-[01.749](2) OVERSEER: Received message from client: CARDREADER 103 SCANNED db4ed0a0bfbb00ac#
-[01.749](2) OVERSEER: Got scan from cardreader 103: db4ed0a0bfbb00ac
-[01.749](3) SIMULATOR: Cardreader sim (#2): response to scan: N
-[01.949](3) SIMULATOR: Cardreader sim (#2): scanned code 2214a7ba5943d923
-[01.949](2) OVERSEER: Received message from client: CARDREADER 103 SCANNED 2214a7ba5943d923#
-[01.949](2) OVERSEER: Got scan from cardreader 103: 2214a7ba5943d923
-[01.949](3) SIMULATOR: Cardreader sim (#2): response to scan: Y
+[01.660](0) DOOR.101: Received message: CLOSE#
+[01.660](0) DOOR.101: Current status: C
+[01.660](0) DOOR.101: ALREADY#
+[01.660](3) OVERSEER: Received ALREADY# from door
+[01.749](4) SIMULATOR: Cardreader sim (#2): scanned code db4ed0a0bfbb00ac
+[01.749](3) OVERSEER: Received message from client: CARDREADER 103 SCANNED db4ed0a0bfbb00ac#
+[01.749](3) OVERSEER: Got scan from cardreader 103: db4ed0a0bfbb00ac
+[01.749](4) SIMULATOR: Cardreader sim (#2): response to scan: N
+[01.949](4) SIMULATOR: Cardreader sim (#2): scanned code 2214a7ba5943d923
+[01.949](3) OVERSEER: Received message from client: CARDREADER 103 SCANNED 2214a7ba5943d923#
+[01.949](3) OVERSEER: Got scan from cardreader 103: 2214a7ba5943d923
+[01.949](4) SIMULATOR: Cardreader sim (#2): response to scan: Y
 [01.949](0) DOOR.102: Received message: OPEN#
 [01.949](0) DOOR.102: Current status: C
 [01.949](0) DOOR.102: OPENING#
-[01.949](2) OVERSEER: Received OPENING# from door
+[01.949](3) OVERSEER: Received OPENING# from door
 [01.949](5) SIMULATOR: Door sim (#1) woke up. Status = o
 [01.959](5) SIMULATOR: Door sim (#1) changed status to = O
 [01.959](0) DOOR.102: OPENED#
-[01.959](2) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.959](3) OVERSEER: Received OPENED# from door (should be OPENED#)
 [02.049](6) SIMULATOR: Simulated input to overseer: DOOR OPEN 101
 [02.049](0) DOOR.101: Received message: OPEN#
 [02.049](0) DOOR.101: Current status: C
 [02.049](0) DOOR.101: OPENING#
-[02.049](0) SIMULATOR: Door sim (#0) woke up. Status = o
-[02.059](0) SIMULATOR: Door sim (#0) changed status to = O
+[02.049](3) SIMULATOR: Door sim (#0) woke up. Status = o
+[02.059](3) SIMULATOR: Door sim (#0) changed status to = O
 [02.059](0) DOOR.101: OPENED#
-[02.059](0) DOOR.102: Received message: CLOSE#
-[02.059](0) DOOR.102: Current status: O
-[02.059](0) DOOR.102: CLOSING#
-[02.059](5) SIMULATOR: Door sim (#1) woke up. Status = c
-[02.059](2) OVERSEER: Received CLOSING# from door
-[02.069](5) SIMULATOR: Door sim (#1) changed status to = C
-[02.069](0) DOOR.102: CLOSED#
-[02.069](2) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[02.060](0) DOOR.102: Received message: CLOSE#
+[02.060](0) DOOR.102: Current status: O
+[02.060](0) DOOR.102: CLOSING#
+[02.060](3) OVERSEER: Received CLOSING# from door
+[02.060](5) SIMULATOR: Door sim (#1) woke up. Status = c
+[02.070](5) SIMULATOR: Door sim (#1) changed status to = C
+[02.070](0) DOOR.102: CLOSED#
+[02.070](3) OVERSEER: Received CLOSED# from door (should be CLOSED#)
 [02.149](1) SIMULATOR: Cardreader sim (#3): scanned code 2214a7ba5943d923
-[02.149](2) OVERSEER: Received message from client: CARDREADER 104 SCANNED 2214a7ba5943d923#
-[02.149](2) OVERSEER: Got scan from cardreader 104: 2214a7ba5943d923
+[02.149](3) OVERSEER: Received message from client: CARDREADER 104 SCANNED 2214a7ba5943d923#
+[02.149](3) OVERSEER: Got scan from cardreader 104: 2214a7ba5943d923
 [02.149](1) SIMULATOR: Cardreader sim (#3): response to scan: Y
 [02.149](0) DOOR.102: Received message: OPEN#
 [02.149](0) DOOR.102: Current status: C
 [02.149](0) DOOR.102: OPENING#
-[02.149](2) OVERSEER: Received OPENING# from door
+[02.149](3) OVERSEER: Received OPENING# from door
 [02.149](5) SIMULATOR: Door sim (#1) woke up. Status = o
 [02.159](5) SIMULATOR: Door sim (#1) changed status to = O
 [02.159](0) DOOR.102: OPENED#
-[02.159](2) OVERSEER: Received OPENED# from door (should be OPENED#)
-[02.259](0) DOOR.102: Received message: CLOSE#
-[02.259](0) DOOR.102: Current status: O
-[02.259](0) DOOR.102: CLOSING#
-[02.259](2) OVERSEER: Received CLOSING# from door
-[02.259](5) SIMULATOR: Door sim (#1) woke up. Status = c
-[02.269](5) SIMULATOR: Door sim (#1) changed status to = C
-[02.269](0) DOOR.102: CLOSED#
-[02.269](2) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[02.160](3) OVERSEER: Received OPENED# from door (should be OPENED#)
+[02.260](0) DOOR.102: Received message: CLOSE#
+[02.260](0) DOOR.102: Current status: O
+[02.260](0) DOOR.102: CLOSING#
+[02.260](5) SIMULATOR: Door sim (#1) woke up. Status = c
+[02.260](3) OVERSEER: Received CLOSING# from door
+[02.270](5) SIMULATOR: Door sim (#1) changed status to = C
+[02.270](0) DOOR.102: CLOSED#
+[02.270](3) OVERSEER: Received CLOSED# from door (should be CLOSED#)
 [03.149](6) SIMULATOR: Simulation ended, shutting down
 """
 
 cardreader_2_submission = """
 [00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
-[00.251](0) SIMULATOR: Door sim (#1) started
-[00.251](1) SIMULATOR: Cardreader sim (#3) started
-[00.251](2) SIMULATOR: Door sim (#2) started
-[00.251](3) SIMULATOR: Cardreader sim (#7) started
+[00.250](0) SIMULATOR: Door sim (#3) started
+[00.250](1) SIMULATOR: Door sim (#1) started
+[00.250](2) SIMULATOR: Door sim (#4) started
+[00.250](3) SIMULATOR: Cardreader sim (#8) started
 [00.251](4) SIMULATOR: Door sim (#0) started
-[00.251](5) SIMULATOR: Cardreader sim (#0) started
-[00.251](6) SIMULATOR: Door sim (#4) started
-[00.251](7) SIMULATOR: Cardreader sim (#2) started
-[00.251](8) SIMULATOR: Cardreader sim (#5) started
-[00.251](9) SIMULATOR: Cardreader sim (#1) started
-[00.251](10) SIMULATOR: Door sim (#3) started
-[00.251](11) SIMULATOR: Cardreader sim (#6) started
-[00.251](12) SIMULATOR: Cardreader sim (#9) started
-[00.251](13) SIMULATOR: Cardreader sim (#8) started
-[00.251](14) SIMULATOR: Cardreader sim (#4) started
-[00.252](11) SIMULATOR: Destselect sim (#1) started
-[00.252](7) SIMULATOR: Destselect sim (#0) started
-[00.252](3) SIMULATOR: Elevator sim (#1) started
-[00.252](15) SIMULATOR: Camera sim (#0) started
-[00.252](16) SIMULATOR: Camera sim (#1) started
-[00.252](17) SIMULATOR: Camera sim (#2) started
-[00.252](18) SIMULATOR: Camera sim (#3) started
-[00.252](19) SIMULATOR: Destselect sim (#6) started
-[00.252](20) SIMULATOR: Destselect sim (#5) started
-[00.252](21) SIMULATOR: Destselect sim (#4) started
-[00.252](22) SIMULATOR: Elevator sim (#0) started
-[00.252](23) SIMULATOR: Destselect sim (#3) started
-[00.252](24) SIMULATOR: Camera sim (#4) started
-[00.252](1) SIMULATOR: Destselect sim (#2) started
+[00.250](5) SIMULATOR: Cardreader sim (#9) started
+[00.250](6) SIMULATOR: Door sim (#2) started
+[00.250](7) SIMULATOR: Cardreader sim (#5) started
+[00.250](8) SIMULATOR: Cardreader sim (#7) started
+[00.250](9) SIMULATOR: Destselect sim (#0) started
+[00.251](10) SIMULATOR: Cardreader sim (#2) started
+[00.250](11) SIMULATOR: Elevator sim (#0) started
+[00.251](12) SIMULATOR: Cardreader sim (#3) started
+[00.251](13) SIMULATOR: Cardreader sim (#4) started
+[00.251](1) OVERSEER: Received message from client: CARDREADER 101 HELLO#
+[00.250](14) SIMULATOR: Cardreader sim (#0) started
+[00.251](1) OVERSEER: Got reg event from cardreader 101
+[00.251](10) SIMULATOR: Destselect sim (#3) started
+[00.251](15) SIMULATOR: Destselect sim (#5) started
+[00.251](8) SIMULATOR: Destselect sim (#4) started
+[00.251](16) SIMULATOR: Destselect sim (#1) started
+[00.251](17) SIMULATOR: Cardreader sim (#1) started
+[00.250](18) SIMULATOR: Elevator sim (#1) started
+[00.250](19) SIMULATOR: Cardreader sim (#6) started
+[00.251](20) SIMULATOR: Camera sim (#0) started
+[00.251](21) SIMULATOR: Destselect sim (#6) started
+[00.251](22) SIMULATOR: Camera sim (#4) started
+[00.251](8) SIMULATOR: Camera sim (#3) started
+[00.251](15) SIMULATOR: Camera sim (#2) started
+[00.251](12) SIMULATOR: Destselect sim (#2) started
+[00.251](10) SIMULATOR: Camera sim (#1) started
+[00.253](1) OVERSEER: Received message from client: CARDREADER 102 HELLO#
+[00.253](1) OVERSEER: Got reg event from cardreader 102
+[00.255](0) DOOR.101: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6592. Overseer addr: 127.0.0.1:4100
+[00.255](0) DOOR.101: Binding addr 127.0.0.1:4101
+[00.256](0) DOOR.301: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 7024. Overseer addr: 127.0.0.1:4100
 [00.256](0) DOOR.501: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 7168. Overseer addr: 127.0.0.1:4100
-[00.257](0) CAMERA.11: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 13312. Overseer addr: 127.0.0.1:4100
-[00.257](0) CAMERA.11: Binding addr 127.0.0.1:4108
-[00.258](1) OVERSEER: Received message from client: CARDREADER 201 HELLO#
-[00.258](1) OVERSEER: Got reg event from cardreader 201
-[00.258](0) DOOR.301: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 7024. Overseer addr: 127.0.0.1:4100
-[00.258](0) DOOR.301: Binding addr 127.0.0.1:4104
-[00.259](0) CAMERA.44: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 18784. Overseer addr: 127.0.0.1:4100
-[00.259](0) CAMERA.44: Binding addr 127.0.0.1:4111
-[00.261](0) DESTSELECT.301: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50296. Overseer addr: 127.0.0.1:4100
-[00.261](0) DESTSELECT.301: Attempting to connect to 127.0.0.1:4100
-[00.261](0) DESTSELECT.402: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50632. Overseer addr: 127.0.0.1:4100
-[00.261](0) DESTSELECT.402: Attempting to connect to 127.0.0.1:4100
+[00.256](0) DOOR.301: Binding addr 127.0.0.1:4104
+[00.257](0) CAMERA.22: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 15136. Overseer addr: 127.0.0.1:4100
+[00.257](0) CAMERA.22: Binding addr 127.0.0.1:4109
+[00.257](0) ELEVATOR.2: Starting up. Wait time: 10000us. Door open duration: 200000us. Shm path: /shm. Offset: 53296. Overseer addr: 127.0.0.1:4100
+[00.257](0) ELEVATOR.2: Binding addr 127.0.0.1:4107
+[00.258](0) DOOR.501: Binding addr 127.0.0.1:4105
+[00.258](0) CAMERA.33: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 16960. Overseer addr: 127.0.0.1:4100
+[00.258](0) CAMERA.33: Binding addr 127.0.0.1:4110
+[00.258](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4100
+[00.258](0) DOOR.102: Binding addr 127.0.0.1:4102
+[00.258](0) CAMERA.44: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 18784. Overseer addr: 127.0.0.1:4100
+[00.258](0) CAMERA.44: Binding addr 127.0.0.1:4111
+[00.258](0) ELEVATOR.1: Starting up. Wait time: 10000us. Door open duration: 200000us. Shm path: /shm. Offset: 53152. Overseer addr: 127.0.0.1:4100
+[00.258](0) ELEVATOR.1: Binding addr 127.0.0.1:4106
+[00.258](2) OVERSEER: Received message from client: ELEVATOR 1 127.0.0.1:4106 HELLO#
+[00.259](2) OVERSEER: Registered elevator #1 @127.0.0.1:4106
+[00.260](3) OVERSEER: Received message from client: DOOR 301 127.0.0.1:4104 FAIL_SAFE#
+[00.260](3) OVERSEER: Registered door #301 @127.0.0.1:4104 (FAIL_SAFE#)
+[00.260](0) DOOR.201: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6880. Overseer addr: 127.0.0.1:4100
+[00.260](4) OVERSEER: Received message from client: CARDREADER 501 HELLO#
+[00.260](4) OVERSEER: Got reg event from cardreader 501
+[00.260](0) DOOR.201: Binding addr 127.0.0.1:4103
+[00.260](3) OVERSEER: Received message from client: CARDREADER 104 HELLO#
+[00.260](3) OVERSEER: Got reg event from cardreader 104
+[00.260](0) DESTSELECT.202: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50128. Overseer addr: 127.0.0.1:4100
+[00.260](0) DESTSELECT.302: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50464. Overseer addr: 127.0.0.1:4100
+[00.260](0) DESTSELECT.202: Attempting to connect to 127.0.0.1:4100
+[00.260](0) DESTSELECT.302: Attempting to connect to 127.0.0.1:4100
+[00.260](5) OVERSEER: Received message from client: CAMERA 44 127.0.0.1:4111 HELLO#
+[00.260](5) OVERSEER: Registered camera #44 @127.0.0.1:4111
+[00.260](0) DESTSELECT.202: Sending HELLO#
+[00.260](0) DESTSELECT.302: Sending HELLO#
+[00.260](6) OVERSEER: Received message from client: CAMERA 33 127.0.0.1:4110 HELLO#
+[00.260](6) OVERSEER: Registered camera #33 @127.0.0.1:4110
+[00.260](4) OVERSEER: Received message from client: DESTSELECT 202 HELLO#
+[00.260](4) OVERSEER: Got reg event from destselect 202
+[00.260](7) OVERSEER: Received message from client: CARDREADER 202 HELLO#
+[00.260](7) OVERSEER: Got reg event from cardreader 202
+[00.260](5) OVERSEER: Received message from client: DESTSELECT 302 HELLO#
+[00.260](5) OVERSEER: Got reg event from destselect 302
+[00.260](8) OVERSEER: Received message from client: CARDREADER 301 HELLO#
+[00.260](8) OVERSEER: Got reg event from cardreader 301
+[00.261](0) DESTSELECT.201: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 49960. Overseer addr: 127.0.0.1:4100
+[00.261](0) DESTSELECT.201: Attempting to connect to 127.0.0.1:4100
+[00.261](0) DESTSELECT.201: Sending HELLO#
+[00.261](1) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4101 FAIL_SAFE#
+[00.261](1) OVERSEER: Registered door #101 @127.0.0.1:4101 (FAIL_SAFE#)
+[00.261](3) OVERSEER: Received message from client: DOOR 201 127.0.0.1:4103 FAIL_SAFE#
+[00.261](3) OVERSEER: Registered door #201 @127.0.0.1:4103 (FAIL_SAFE#)
+[00.261](9) OVERSEER: Received message from client: CARDREADER 502 HELLO#
+[00.261](9) OVERSEER: Got reg event from cardreader 502
+[00.261](10) OVERSEER: Received message from client: CAMERA 22 127.0.0.1:4109 HELLO#
+[00.261](10) OVERSEER: Registered camera #22 @127.0.0.1:4109
+[00.261](5) OVERSEER: Received message from client: CARDREADER 302 HELLO#
+[00.261](5) OVERSEER: Got reg event from cardreader 302
+[00.261](8) OVERSEER: Received message from client: DESTSELECT 201 HELLO#
+[00.261](8) OVERSEER: Got reg event from destselect 201
+[00.261](11) OVERSEER: Received message from client: ELEVATOR 2 127.0.0.1:4107 HELLO#
+[00.261](11) OVERSEER: Registered elevator #2 @127.0.0.1:4107
+[00.261](9) OVERSEER: Received message from client: CARDREADER 103 HELLO#
+[00.261](9) OVERSEER: Got reg event from cardreader 103
 [00.261](0) DESTSELECT.502: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50800. Overseer addr: 127.0.0.1:4100
 [00.261](0) DESTSELECT.502: Attempting to connect to 127.0.0.1:4100
+[00.261](12) OVERSEER: Received message from client: DOOR 501 127.0.0.1:4105 FAIL_SECURE#
+[00.261](12) OVERSEER: Registered door #501 @127.0.0.1:4105 (FAIL_SECURE#)
 [00.261](0) DESTSELECT.502: Sending HELLO#
-[00.261](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4100
-[00.261](0) DESTSELECT.402: Sending HELLO#
-[00.261](0) DOOR.102: Binding addr 127.0.0.1:4102
-[00.262](2) OVERSEER: Received message from client: CAMERA 11 127.0.0.1:4108 HELLO#
-[00.262](2) OVERSEER: Registered camera #11 @127.0.0.1:4108
-[00.262](0) DOOR.501: Binding addr 127.0.0.1:4105
-[00.262](0) DESTSELECT.202: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50128. Overseer addr: 127.0.0.1:4100
-[00.262](0) DESTSELECT.202: Attempting to connect to 127.0.0.1:4100
-[00.262](0) DESTSELECT.202: Sending HELLO#
-[00.263](0) CAMERA.22: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 15136. Overseer addr: 127.0.0.1:4100
-[00.263](0) DOOR.201: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6880. Overseer addr: 127.0.0.1:4100
-[00.263](0) DOOR.201: Binding addr 127.0.0.1:4103
-[00.263](0) CAMERA.22: Binding addr 127.0.0.1:4109
-[00.263](3) OVERSEER: Received message from client: DESTSELECT 402 HELLO#
-[00.264](3) OVERSEER: Got reg event from destselect 402
-[00.264](4) OVERSEER: Received message from client: DOOR 201 127.0.0.1:4103 FAIL_SAFE#
-[00.264](4) OVERSEER: Registered door #201 @127.0.0.1:4103 (FAIL_SAFE#)
-[00.264](0) CAMERA.33: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 16960. Overseer addr: 127.0.0.1:4100
-[00.264](0) CAMERA.33: Binding addr 127.0.0.1:4110
-[00.264](0) DESTSELECT.101: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 49792. Overseer addr: 127.0.0.1:4100
-[00.264](0) DESTSELECT.101: Attempting to connect to 127.0.0.1:4100
-[00.264](0) DESTSELECT.101: Sending HELLO#
-[00.265](5) OVERSEER: Received message from client: DOOR 501 127.0.0.1:4105 FAIL_SECURE#
-[00.265](5) OVERSEER: Registered door #501 @127.0.0.1:4105 (FAIL_SECURE#)
-[00.265](6) OVERSEER: Received message from client: CARDREADER 103 HELLO#
-[00.265](6) OVERSEER: Got reg event from cardreader 103
-[00.265](7) OVERSEER: Received message from client: CARDREADER 104 HELLO#
-[00.265](7) OVERSEER: Got reg event from cardreader 104
-[00.265](8) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4102 FAIL_SECURE#
-[00.265](8) OVERSEER: Registered door #102 @127.0.0.1:4102 (FAIL_SECURE#)
-[00.265](9) OVERSEER: Received message from client: CARDREADER 302 HELLO#
-[00.265](9) OVERSEER: Got reg event from cardreader 302
-[00.265](10) OVERSEER: Received message from client: CARDREADER 301 HELLO#
-[00.265](10) OVERSEER: Got reg event from cardreader 301
-[00.265](11) OVERSEER: Received message from client: DESTSELECT 502 HELLO#
-[00.265](11) OVERSEER: Got reg event from destselect 502
-[00.265](2) OVERSEER: Received message from client: CAMERA 44 127.0.0.1:4111 HELLO#
-[00.265](2) OVERSEER: Registered camera #44 @127.0.0.1:4111
-[00.265](1) OVERSEER: Received message from client: DOOR 301 127.0.0.1:4104 FAIL_SAFE#
-[00.266](0) CAMERA.55: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 20608. Overseer addr: 127.0.0.1:4100
-[00.266](0) DESTSELECT.201: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 49960. Overseer addr: 127.0.0.1:4100
-[00.266](0) DESTSELECT.201: Attempting to connect to 127.0.0.1:4100
-[00.266](0) DESTSELECT.201: Sending HELLO#
-[00.266](0) CAMERA.55: Binding addr 127.0.0.1:4112
-[00.266](0) DOOR.101: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6592. Overseer addr: 127.0.0.1:4100
-[00.266](0) DOOR.101: Binding addr 127.0.0.1:4101
-[00.266](0) DESTSELECT.302: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50464. Overseer addr: 127.0.0.1:4100
-[00.266](0) DESTSELECT.302: Attempting to connect to 127.0.0.1:4100
-[00.266](0) DESTSELECT.302: Sending HELLO#
-[00.267](12) OVERSEER: Received message from client: CARDREADER 501 HELLO#
-[00.267](0) ELEVATOR.1: Starting up. Wait time: 10000us. Door open duration: 200000us. Shm path: /shm. Offset: 53152. Overseer addr: 127.0.0.1:4100
-[00.266](13) OVERSEER: Received message from client: DESTSELECT 202 HELLO#
-[00.267](13) OVERSEER: Got reg event from destselect 202
-[00.267](0) ELEVATOR.1: Binding addr 127.0.0.1:4106
-[00.267](12) OVERSEER: Got reg event from cardreader 501
-[00.267](14) OVERSEER: Received message from client: CARDREADER 102 HELLO#
-[00.266](15) OVERSEER: Received message from client: CAMERA 22 127.0.0.1:4109 HELLO#
-[00.267](0) DESTSELECT.301: Sending HELLO#
-[00.267](1) OVERSEER: Registered door #301 @127.0.0.1:4104 (FAIL_SAFE#)
-[00.267](14) OVERSEER: Got reg event from cardreader 102
-[00.267](15) OVERSEER: Registered camera #22 @127.0.0.1:4109
-[00.267](14) OVERSEER: Received message from client: CAMERA 33 127.0.0.1:4110 HELLO#
-[00.267](15) OVERSEER: Received message from client: DESTSELECT 101 HELLO#
-[00.267](15) OVERSEER: Got reg event from destselect 101
-[00.267](1) OVERSEER: Received message from client: CARDREADER 502 HELLO#
-[00.267](14) OVERSEER: Registered camera #33 @127.0.0.1:4110
-[00.267](12) OVERSEER: Received message from client: CARDREADER 202 HELLO#
-[00.267](6) OVERSEER: Received message from client: DESTSELECT 201 HELLO#
-[00.268](6) OVERSEER: Got reg event from destselect 201
-[00.267](15) OVERSEER: Received message from client: CAMERA 55 127.0.0.1:4112 HELLO#
-[00.268](15) OVERSEER: Registered camera #55 @127.0.0.1:4112
-[00.268](10) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4101 FAIL_SAFE#
-[00.268](7) OVERSEER: Received message from client: DESTSELECT 302 HELLO#
-[00.268](11) OVERSEER: Received message from client: ELEVATOR 1 127.0.0.1:4106 HELLO#
-[00.268](8) OVERSEER: Received message from client: DESTSELECT 301 HELLO#
-[00.268](11) OVERSEER: Registered elevator #1 @127.0.0.1:4106
-[00.268](8) OVERSEER: Got reg event from destselect 301
-[00.268](9) OVERSEER: Received message from client: CARDREADER 101 HELLO#
-[00.268](1) OVERSEER: Got reg event from cardreader 502
-[00.268](12) OVERSEER: Got reg event from cardreader 202
-[00.268](7) OVERSEER: Got reg event from destselect 302
-[00.268](10) OVERSEER: Registered door #101 @127.0.0.1:4101 (FAIL_SAFE#)
-[00.268](9) OVERSEER: Got reg event from cardreader 101
-[00.268](0) ELEVATOR.2: Starting up. Wait time: 10000us. Door open duration: 200000us. Shm path: /shm. Offset: 53296. Overseer addr: 127.0.0.1:4100
-[00.268](0) ELEVATOR.2: Binding addr 127.0.0.1:4107
-[00.268](9) OVERSEER: Received message from client: ELEVATOR 2 127.0.0.1:4107 HELLO#
-[00.268](9) OVERSEER: Registered elevator #2 @127.0.0.1:4107
-[01.350](5) SIMULATOR: Cardreader sim (#0): scanned code 4b6f9c1d4d55506c
-[01.350](9) OVERSEER: Received message from client: CARDREADER 101 SCANNED 4b6f9c1d4d55506c#
-[01.350](9) OVERSEER: Got scan from cardreader 101: 4b6f9c1d4d55506c
-[01.351](5) SIMULATOR: Cardreader sim (#0): response to scan: Y
-[01.351](0) DOOR.101: Received message: OPEN#
-[01.351](0) DOOR.101: Current status: C
-[01.351](0) DOOR.101: OPENING#
-[01.351](9) OVERSEER: Received OPENING# from door
-[01.351](4) SIMULATOR: Door sim (#0) woke up. Status = o
-[01.361](4) SIMULATOR: Door sim (#0) changed status to = O
-[01.361](0) DOOR.101: OPENED#
-[01.361](9) OVERSEER: Received OPENED# from door (should be OPENED#)
-[01.440](7) SIMULATOR: Destselect sim (#0): scanned code 4b6f9c1d4d55506c and floor 2
+[00.261](13) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4102 FAIL_SECURE#
+[00.261](13) OVERSEER: Registered door #102 @127.0.0.1:4102 (FAIL_SECURE#)
+[00.262](12) OVERSEER: Received message from client: DESTSELECT 502 HELLO#
+[00.262](12) OVERSEER: Got reg event from destselect 502
+[00.262](0) DESTSELECT.402: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50632. Overseer addr: 127.0.0.1:4100
+[00.263](0) DESTSELECT.402: Attempting to connect to 127.0.0.1:4100
+[00.263](0) DESTSELECT.402: Sending HELLO#
+[00.263](12) OVERSEER: Received message from client: DESTSELECT 402 HELLO#
+[00.263](12) OVERSEER: Got reg event from destselect 402
+[00.263](0) CAMERA.11: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 13312. Overseer addr: 127.0.0.1:4100
+[00.264](0) CAMERA.11: Binding addr 127.0.0.1:4108
+[00.264](0) DESTSELECT.301: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 50296. Overseer addr: 127.0.0.1:4100
+[00.264](0) DESTSELECT.301: Attempting to connect to 127.0.0.1:4100
+[00.264](0) DESTSELECT.301: Sending HELLO#
+[00.264](12) OVERSEER: Received message from client: CAMERA 11 127.0.0.1:4108 HELLO#
+[00.264](12) OVERSEER: Registered camera #11 @127.0.0.1:4108
+[00.264](13) OVERSEER: Received message from client: DESTSELECT 301 HELLO#
+[00.264](13) OVERSEER: Got reg event from destselect 301
+[00.265](0) DESTSELECT.101: Starting up. Wait time: 10000us. Shm path: /shm. Offset: 49792. Overseer addr: 127.0.0.1:4100
+[00.265](0) DESTSELECT.101: Attempting to connect to 127.0.0.1:4100
+[00.265](0) DESTSELECT.101: Sending HELLO#
+[00.265](13) OVERSEER: Received message from client: DESTSELECT 101 HELLO#
+[00.265](13) OVERSEER: Got reg event from destselect 101
+[00.266](13) OVERSEER: Received message from client: CARDREADER 201 HELLO#
+[00.266](13) OVERSEER: Got reg event from cardreader 201
+[00.267](0) CAMERA.55: Starting up. Temperature threshold: 20.Shm path: /shm. Offset: 20608. Overseer addr: 127.0.0.1:4100
+[00.267](0) CAMERA.55: Binding addr 127.0.0.1:4112
+[00.267](13) OVERSEER: Received message from client: CAMERA 55 127.0.0.1:4112 HELLO#
+[00.267](13) OVERSEER: Registered camera #55 @127.0.0.1:4112
+[01.350](14) SIMULATOR: Cardreader sim (#0): scanned code 4b6f9c1d4d55506c
+[01.350](13) OVERSEER: Received message from client: CARDREADER 101 SCANNED 4b6f9c1d4d55506c#
+[01.350](13) OVERSEER: Got scan from cardreader 101: 4b6f9c1d4d55506c
+[01.350](14) SIMULATOR: Cardreader sim (#0): response to scan: Y
+[01.350](0) DOOR.101: Received message: OPEN#
+[01.350](0) DOOR.101: Current status: C
+[01.350](0) DOOR.101: OPENING#
+[01.350](4) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.350](13) OVERSEER: Received OPENING# from door
+[01.360](4) SIMULATOR: Door sim (#0) changed status to = O
+[01.360](0) DOOR.101: OPENED#
+[01.360](13) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.440](9) SIMULATOR: Destselect sim (#0): scanned code 4b6f9c1d4d55506c and floor 2
 [01.440](0) DESTSELECT.101: Scanned code: 4b6f9c1d4d55506c and floor: 2 - connecting to overseer
-[01.440](10) OVERSEER: Received message from client: DESTSELECT 101 SCANNED 4b6f9c1d4d55506c 2#
-[01.440](10) OVERSEER: Got scan from destselect 101: 4b6f9c1d4d55506c, floor 2
-[01.444](0) ELEVATOR.1: Received message: FROM 1 TO 2#
+[01.440](12) OVERSEER: Received message from client: DESTSELECT 101 SCANNED 4b6f9c1d4d55506c 2#
+[01.440](12) OVERSEER: Got scan from destselect 101: 4b6f9c1d4d55506c, floor 2
+[01.446](0) ELEVATOR.1: Received message: FROM 1 TO 2#
 [01.450](0) DESTSELECT.101: Received response: ALLOWED#
-[01.450](7) SIMULATOR: Destselect sim (#0): response to scan: Y
-[01.461](0) DOOR.101: Received message: CLOSE#
-[01.461](0) DOOR.101: Current status: O
-[01.461](0) DOOR.101: CLOSING#
-[01.461](9) OVERSEER: Received CLOSING# from door
-[01.461](4) SIMULATOR: Door sim (#0) woke up. Status = c
-[01.464](22) SIMULATOR: Elevator sim (#0): Status is now O
-[01.471](4) SIMULATOR: Door sim (#0) changed status to = C
-[01.471](0) DOOR.101: CLOSED#
-[01.471](9) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[01.785](22) SIMULATOR: Elevator sim (#0) moved from floor 1 to 2. Status is now C
-[01.805](22) SIMULATOR: Elevator sim (#0): Status is now O
-[01.871](16) SIMULATOR: Camera sim (#1) simulated motion (angle: 330, status: O)
-[01.871](9) OVERSEER: Received message from client: CAMERA 22 MOTION#
-[01.871](9) OVERSEER: Received motion event from camera #22
-[01.890](14) SIMULATOR: Cardreader sim (#4): scanned code 4b6f9c1d4d55506c
-[01.890](9) OVERSEER: Received message from client: CARDREADER 201 SCANNED 4b6f9c1d4d55506c#
-[01.890](9) OVERSEER: Got scan from cardreader 201: 4b6f9c1d4d55506c
-[01.890](14) SIMULATOR: Cardreader sim (#4): response to scan: Y
-[01.891](0) DOOR.201: Received message: OPEN#
-[01.891](0) DOOR.201: Current status: C
-[01.891](0) DOOR.201: OPENING#
-[01.891](9) OVERSEER: Received OPENING# from door
-[01.891](2) SIMULATOR: Door sim (#2) woke up. Status = o
-[01.901](2) SIMULATOR: Door sim (#2) changed status to = O
-[01.901](0) DOOR.201: OPENED#
-[01.901](9) OVERSEER: Received OPENED# from door (should be OPENED#)
-[01.911](17) SIMULATOR: Camera sim (#2) simulated motion (angle: 135, status: O)
-[01.912](10) OVERSEER: Received message from client: CAMERA 33 MOTION#
-[01.912](10) OVERSEER: Received motion event from camera #33
-[01.940](1) SIMULATOR: Destselect sim (#2): scanned code 4b6f9c1d4d55506c and floor 5
+[01.450](9) SIMULATOR: Destselect sim (#0): response to scan: Y
+[01.460](0) DOOR.101: Received message: CLOSE#
+[01.460](0) DOOR.101: Current status: O
+[01.460](0) DOOR.101: CLOSING#
+[01.460](13) OVERSEER: Received CLOSING# from door
+[01.460](4) SIMULATOR: Door sim (#0) woke up. Status = c
+[01.466](11) SIMULATOR: Elevator sim (#0): Status is now O
+[01.470](4) SIMULATOR: Door sim (#0) changed status to = C
+[01.470](0) DOOR.101: CLOSED#
+[01.471](13) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[01.786](11) SIMULATOR: Elevator sim (#0) moved from floor 1 to 2. Status is now C
+[01.806](11) SIMULATOR: Elevator sim (#0): Status is now O
+[01.870](10) SIMULATOR: Camera sim (#1) simulated motion (angle: 330, status: O)
+[01.870](13) OVERSEER: Received message from client: CAMERA 22 MOTION#
+[01.870](13) OVERSEER: Received motion event from camera #22
+[01.890](13) SIMULATOR: Cardreader sim (#4): scanned code 4b6f9c1d4d55506c
+[01.890](13) OVERSEER: Received message from client: CARDREADER 201 SCANNED 4b6f9c1d4d55506c#
+[01.890](13) OVERSEER: Got scan from cardreader 201: 4b6f9c1d4d55506c
+[01.890](13) SIMULATOR: Cardreader sim (#4): response to scan: Y
+[01.890](0) DOOR.201: Received message: OPEN#
+[01.890](0) DOOR.201: Current status: C
+[01.890](0) DOOR.201: OPENING#
+[01.890](13) OVERSEER: Received OPENING# from door
+[01.890](6) SIMULATOR: Door sim (#2) woke up. Status = o
+[01.900](6) SIMULATOR: Door sim (#2) changed status to = O
+[01.900](0) DOOR.201: OPENED#
+[01.900](13) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.910](15) SIMULATOR: Camera sim (#2) simulated motion (angle: 135, status: O)
+[01.911](12) OVERSEER: Received message from client: CAMERA 33 MOTION#
+[01.911](12) OVERSEER: Received motion event from camera #33
+[01.940](12) SIMULATOR: Destselect sim (#2): scanned code 4b6f9c1d4d55506c and floor 5
 [01.940](0) DESTSELECT.202: Scanned code: 4b6f9c1d4d55506c and floor: 5 - connecting to overseer
-[01.940](10) OVERSEER: Received message from client: DESTSELECT 202 SCANNED 4b6f9c1d4d55506c 5#
-[01.940](10) OVERSEER: Got scan from destselect 202: 4b6f9c1d4d55506c, floor 5
-[01.949](0) ELEVATOR.2: Received message: FROM 2 TO 5#
+[01.940](12) OVERSEER: Received message from client: DESTSELECT 202 SCANNED 4b6f9c1d4d55506c 5#
+[01.940](12) OVERSEER: Got scan from destselect 202: 4b6f9c1d4d55506c, floor 5
+[01.948](0) ELEVATOR.2: Received message: FROM 2 TO 5#
 [01.950](0) DESTSELECT.202: Received response: ALLOWED#
-[01.950](1) SIMULATOR: Destselect sim (#2): response to scan: Y
-[01.969](3) SIMULATOR: Elevator sim (#1): Status is now O
-[02.001](0) DOOR.201: Received message: CLOSE#
-[02.001](0) DOOR.201: Current status: O
-[02.001](0) DOOR.201: CLOSING#
-[02.001](9) OVERSEER: Received CLOSING# from door
-[02.001](2) SIMULATOR: Door sim (#2) woke up. Status = c
-[02.011](2) SIMULATOR: Door sim (#2) changed status to = C
-[02.011](0) DOOR.201: CLOSED#
-[02.011](9) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[02.289](3) SIMULATOR: Elevator sim (#1) moved from floor 2 to 3. Status is now C
-[02.389](3) SIMULATOR: Elevator sim (#1) moved from floor 3 to 4
-[02.489](3) SIMULATOR: Elevator sim (#1) moved from floor 4 to 5
-[02.509](3) SIMULATOR: Elevator sim (#1): Status is now O
-[02.740](13) SIMULATOR: Cardreader sim (#8): scanned code 4b6f9c1d4d55506c
-[02.740](9) OVERSEER: Received message from client: CARDREADER 501 SCANNED 4b6f9c1d4d55506c#
-[02.740](9) OVERSEER: Got scan from cardreader 501: 4b6f9c1d4d55506c
-[02.741](13) SIMULATOR: Cardreader sim (#8): response to scan: Y
-[02.741](0) DOOR.501: Received message: OPEN#
-[02.741](0) DOOR.501: Current status: C
-[02.741](0) DOOR.501: OPENING#
-[02.741](9) OVERSEER: Received OPENING# from door
-[02.741](6) SIMULATOR: Door sim (#4) woke up. Status = o
-[02.751](6) SIMULATOR: Door sim (#4) changed status to = O
-[02.751](0) DOOR.501: OPENED#
-[02.751](9) OVERSEER: Received OPENED# from door (should be OPENED#)
-[02.771](24) SIMULATOR: Camera sim (#4) simulated motion (angle: 105, status: O)
-[02.772](10) OVERSEER: Received message from client: CAMERA 55 MOTION#
-[02.772](10) OVERSEER: Received motion event from camera #55
-[02.851](0) DOOR.501: Received message: CLOSE#
-[02.851](0) DOOR.501: Current status: O
-[02.851](0) DOOR.501: CLOSING#
-[02.851](6) SIMULATOR: Door sim (#4) woke up. Status = c
-[02.851](9) OVERSEER: Received CLOSING# from door
-[02.861](6) SIMULATOR: Door sim (#4) changed status to = C
+[01.950](12) SIMULATOR: Destselect sim (#2): response to scan: Y
+[01.968](18) SIMULATOR: Elevator sim (#1): Status is now O
+[02.000](0) DOOR.201: Received message: CLOSE#
+[02.000](0) DOOR.201: Current status: O
+[02.000](0) DOOR.201: CLOSING#
+[02.000](13) OVERSEER: Received CLOSING# from door
+[02.000](6) SIMULATOR: Door sim (#2) woke up. Status = c
+[02.010](6) SIMULATOR: Door sim (#2) changed status to = C
+[02.010](0) DOOR.201: CLOSED#
+[02.010](13) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[02.288](18) SIMULATOR: Elevator sim (#1) moved from floor 2 to 3. Status is now C
+[02.388](18) SIMULATOR: Elevator sim (#1) moved from floor 3 to 4
+[02.488](18) SIMULATOR: Elevator sim (#1) moved from floor 4 to 5
+[02.508](18) SIMULATOR: Elevator sim (#1): Status is now O
+[02.740](3) SIMULATOR: Cardreader sim (#8): scanned code 4b6f9c1d4d55506c
+[02.740](13) OVERSEER: Received message from client: CARDREADER 501 SCANNED 4b6f9c1d4d55506c#
+[02.740](13) OVERSEER: Got scan from cardreader 501: 4b6f9c1d4d55506c
+[02.740](3) SIMULATOR: Cardreader sim (#8): response to scan: Y
+[02.740](0) DOOR.501: Received message: OPEN#
+[02.740](0) DOOR.501: Current status: C
+[02.740](0) DOOR.501: OPENING#
+[02.740](13) OVERSEER: Received OPENING# from door
+[02.740](2) SIMULATOR: Door sim (#4) woke up. Status = o
+[02.750](2) SIMULATOR: Door sim (#4) changed status to = O
+[02.750](0) DOOR.501: OPENED#
+[02.750](13) OVERSEER: Received OPENED# from door (should be OPENED#)
+[02.770](22) SIMULATOR: Camera sim (#4) simulated motion (angle: 105, status: O)
+[02.770](12) OVERSEER: Received message from client: CAMERA 55 MOTION#
+[02.770](12) OVERSEER: Received motion event from camera #55
+[02.850](0) DOOR.501: Received message: CLOSE#
+[02.850](0) DOOR.501: Current status: O
+[02.850](0) DOOR.501: CLOSING#
+[02.850](13) OVERSEER: Received CLOSING# from door
+[02.850](2) SIMULATOR: Door sim (#4) woke up. Status = c
+[02.861](2) SIMULATOR: Door sim (#4) changed status to = C
 [02.861](0) DOOR.501: CLOSED#
-[02.861](9) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[02.950](12) SIMULATOR: Cardreader sim (#9): scanned code 4b6f9c1d4d55506c
-[02.950](9) OVERSEER: Received message from client: CARDREADER 502 SCANNED 4b6f9c1d4d55506c#
-[02.950](9) OVERSEER: Got scan from cardreader 502: 4b6f9c1d4d55506c
-[02.951](12) SIMULATOR: Cardreader sim (#9): response to scan: Y
-[02.951](0) DOOR.501: Received message: OPEN#
-[02.951](0) DOOR.501: Current status: C
-[02.951](0) DOOR.501: OPENING#
-[02.951](6) SIMULATOR: Door sim (#4) woke up. Status = o
-[02.951](9) OVERSEER: Received OPENING# from door
-[02.961](6) SIMULATOR: Door sim (#4) changed status to = O
-[02.961](0) DOOR.501: OPENED#
-[02.961](9) OVERSEER: Received OPENED# from door (should be OPENED#)
-[03.050](19) SIMULATOR: Destselect sim (#6): scanned code 4b6f9c1d4d55506c and floor 2
+[02.861](13) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[02.950](5) SIMULATOR: Cardreader sim (#9): scanned code 4b6f9c1d4d55506c
+[02.950](13) OVERSEER: Received message from client: CARDREADER 502 SCANNED 4b6f9c1d4d55506c#
+[02.950](13) OVERSEER: Got scan from cardreader 502: 4b6f9c1d4d55506c
+[02.950](5) SIMULATOR: Cardreader sim (#9): response to scan: Y
+[02.950](0) DOOR.501: Received message: OPEN#
+[02.950](0) DOOR.501: Current status: C
+[02.950](0) DOOR.501: OPENING#
+[02.950](13) OVERSEER: Received OPENING# from door
+[02.950](2) SIMULATOR: Door sim (#4) woke up. Status = o
+[02.960](2) SIMULATOR: Door sim (#4) changed status to = O
+[02.960](0) DOOR.501: OPENED#
+[02.960](13) OVERSEER: Received OPENED# from door (should be OPENED#)
+[03.050](21) SIMULATOR: Destselect sim (#6): scanned code 4b6f9c1d4d55506c and floor 2
 [03.050](0) DESTSELECT.502: Scanned code: 4b6f9c1d4d55506c and floor: 2 - connecting to overseer
-[03.050](10) OVERSEER: Received message from client: DESTSELECT 502 SCANNED 4b6f9c1d4d55506c 2#
-[03.050](10) OVERSEER: Got scan from destselect 502: 4b6f9c1d4d55506c, floor 2
-[03.053](0) ELEVATOR.2: Received message: FROM 5 TO 2#
+[03.050](12) OVERSEER: Received message from client: DESTSELECT 502 SCANNED 4b6f9c1d4d55506c 2#
+[03.050](12) OVERSEER: Got scan from destselect 502: 4b6f9c1d4d55506c, floor 2
+[03.052](0) ELEVATOR.2: Received message: FROM 5 TO 2#
 [03.060](0) DESTSELECT.502: Received response: ALLOWED#
-[03.061](19) SIMULATOR: Destselect sim (#6): response to scan: Y
-[03.061](0) DOOR.501: Received message: CLOSE#
-[03.061](0) DOOR.501: Current status: O
-[03.061](0) DOOR.501: CLOSING#
-[03.061](6) SIMULATOR: Door sim (#4) woke up. Status = c
-[03.061](9) OVERSEER: Received CLOSING# from door
-[03.071](6) SIMULATOR: Door sim (#4) changed status to = C
-[03.071](0) DOOR.501: CLOSED#
-[03.071](9) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[03.273](3) SIMULATOR: Elevator sim (#1): Status is now C
-[03.293](3) SIMULATOR: Elevator sim (#1): Status is now O
-[03.613](3) SIMULATOR: Elevator sim (#1) moved from floor 5 to 4. Status is now C
-[03.713](3) SIMULATOR: Elevator sim (#1) moved from floor 4 to 3
-[03.750](17) SIMULATOR: Camera sim (#2) simulated motion (angle: 135, status: O)
-[03.751](9) OVERSEER: Received message from client: CAMERA 33 MOTION#
-[03.751](9) OVERSEER: Received motion event from camera #33
-[03.814](3) SIMULATOR: Elevator sim (#1) moved from floor 3 to 2
-[03.834](3) SIMULATOR: Elevator sim (#1): Status is now O
-[03.850](8) SIMULATOR: Cardreader sim (#5): scanned code 4b6f9c1d4d55506c
-[03.850](9) OVERSEER: Received message from client: CARDREADER 202 SCANNED 4b6f9c1d4d55506c#
-[03.850](9) OVERSEER: Got scan from cardreader 202: 4b6f9c1d4d55506c
-[03.850](8) SIMULATOR: Cardreader sim (#5): response to scan: Y
-[03.851](0) DOOR.201: Received message: OPEN#
-[03.851](0) DOOR.201: Current status: C
-[03.851](0) DOOR.201: OPENING#
-[03.851](9) OVERSEER: Received OPENING# from door
-[03.851](2) SIMULATOR: Door sim (#2) woke up. Status = o
-[03.861](2) SIMULATOR: Door sim (#2) changed status to = O
-[03.861](0) DOOR.201: OPENED#
-[03.861](9) OVERSEER: Received OPENED# from door (should be OPENED#)
-[03.951](16) SIMULATOR: Camera sim (#1) simulated motion (angle: 330, status: O)
-[03.951](10) OVERSEER: Received message from client: CAMERA 22 MOTION#
-[03.951](10) OVERSEER: Received motion event from camera #22
-[03.961](0) DOOR.201: Received message: CLOSE#
-[03.961](0) DOOR.201: Current status: O
-[03.961](0) DOOR.201: CLOSING#
-[03.961](9) OVERSEER: Received CLOSING# from door
-[03.961](2) SIMULATOR: Door sim (#2) woke up. Status = c
-[03.971](2) SIMULATOR: Door sim (#2) changed status to = C
-[03.971](0) DOOR.201: CLOSED#
-[03.971](9) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[04.050](11) SIMULATOR: Destselect sim (#1): scanned code 4b6f9c1d4d55506c and floor 1
+[03.060](21) SIMULATOR: Destselect sim (#6): response to scan: Y
+[03.060](0) DOOR.501: Received message: CLOSE#
+[03.060](0) DOOR.501: Current status: O
+[03.060](0) DOOR.501: CLOSING#
+[03.060](13) OVERSEER: Received CLOSING# from door
+[03.060](2) SIMULATOR: Door sim (#4) woke up. Status = c
+[03.070](2) SIMULATOR: Door sim (#4) changed status to = C
+[03.070](0) DOOR.501: CLOSED#
+[03.071](13) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[03.272](18) SIMULATOR: Elevator sim (#1): Status is now C
+[03.292](18) SIMULATOR: Elevator sim (#1): Status is now O
+[03.612](18) SIMULATOR: Elevator sim (#1) moved from floor 5 to 4. Status is now C
+[03.712](18) SIMULATOR: Elevator sim (#1) moved from floor 4 to 3
+[03.750](15) SIMULATOR: Camera sim (#2) simulated motion (angle: 135, status: O)
+[03.751](13) OVERSEER: Received message from client: CAMERA 33 MOTION#
+[03.751](13) OVERSEER: Received motion event from camera #33
+[03.813](18) SIMULATOR: Elevator sim (#1) moved from floor 3 to 2
+[03.833](18) SIMULATOR: Elevator sim (#1): Status is now O
+[03.850](7) SIMULATOR: Cardreader sim (#5): scanned code 4b6f9c1d4d55506c
+[03.850](13) OVERSEER: Received message from client: CARDREADER 202 SCANNED 4b6f9c1d4d55506c#
+[03.850](13) OVERSEER: Got scan from cardreader 202: 4b6f9c1d4d55506c
+[03.850](7) SIMULATOR: Cardreader sim (#5): response to scan: Y
+[03.850](0) DOOR.201: Received message: OPEN#
+[03.850](0) DOOR.201: Current status: C
+[03.850](0) DOOR.201: OPENING#
+[03.850](13) OVERSEER: Received OPENING# from door
+[03.850](6) SIMULATOR: Door sim (#2) woke up. Status = o
+[03.860](6) SIMULATOR: Door sim (#2) changed status to = O
+[03.860](0) DOOR.201: OPENED#
+[03.860](13) OVERSEER: Received OPENED# from door (should be OPENED#)
+[03.950](10) SIMULATOR: Camera sim (#1) simulated motion (angle: 330, status: O)
+[03.950](12) OVERSEER: Received message from client: CAMERA 22 MOTION#
+[03.950](12) OVERSEER: Received motion event from camera #22
+[03.960](0) DOOR.201: Received message: CLOSE#
+[03.960](0) DOOR.201: Current status: O
+[03.960](0) DOOR.201: CLOSING#
+[03.960](13) OVERSEER: Received CLOSING# from door
+[03.960](6) SIMULATOR: Door sim (#2) woke up. Status = c
+[03.970](6) SIMULATOR: Door sim (#2) changed status to = C
+[03.970](0) DOOR.201: CLOSED#
+[03.970](13) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[04.050](16) SIMULATOR: Destselect sim (#1): scanned code 4b6f9c1d4d55506c and floor 1
 [04.050](0) DESTSELECT.201: Scanned code: 4b6f9c1d4d55506c and floor: 1 - connecting to overseer
-[04.050](9) OVERSEER: Received message from client: DESTSELECT 201 SCANNED 4b6f9c1d4d55506c 1#
-[04.050](9) OVERSEER: Got scan from destselect 201: 4b6f9c1d4d55506c, floor 1
-[04.059](0) ELEVATOR.1: Received message: FROM 2 TO 1#
+[04.050](13) OVERSEER: Received message from client: DESTSELECT 201 SCANNED 4b6f9c1d4d55506c 1#
+[04.050](13) OVERSEER: Got scan from destselect 201: 4b6f9c1d4d55506c, floor 1
+[04.051](0) ELEVATOR.1: Received message: FROM 2 TO 1#
 [04.060](0) DESTSELECT.201: Received response: ALLOWED#
-[04.060](11) SIMULATOR: Destselect sim (#1): response to scan: Y
-[04.279](22) SIMULATOR: Elevator sim (#0): Status is now C
-[04.299](22) SIMULATOR: Elevator sim (#0): Status is now O
-[04.619](22) SIMULATOR: Elevator sim (#0) moved from floor 2 to 1. Status is now C
-[04.639](22) SIMULATOR: Elevator sim (#0): Status is now O
-[04.750](9) SIMULATOR: Cardreader sim (#1): scanned code 4b6f9c1d4d55506c
-[04.750](9) OVERSEER: Received message from client: CARDREADER 102 SCANNED 4b6f9c1d4d55506c#
-[04.750](9) OVERSEER: Got scan from cardreader 102: 4b6f9c1d4d55506c
-[04.750](9) SIMULATOR: Cardreader sim (#1): response to scan: Y
-[04.751](0) DOOR.101: Received message: OPEN#
-[04.751](0) DOOR.101: Current status: C
-[04.751](0) DOOR.101: OPENING#
-[04.751](9) OVERSEER: Received OPENING# from door
-[04.751](4) SIMULATOR: Door sim (#0) woke up. Status = o
-[04.761](4) SIMULATOR: Door sim (#0) changed status to = O
-[04.761](0) DOOR.101: OPENED#
-[04.761](9) OVERSEER: Received OPENED# from door (should be OPENED#)
-[04.850](24) SIMULATOR: Camera sim (#4) simulated motion (angle: 105, status: O)
-[04.851](10) OVERSEER: Received message from client: CAMERA 55 MOTION#
-[04.851](10) OVERSEER: Received motion event from camera #55
-[04.851](10) OVERSEER: Alert in sector 9
+[04.060](16) SIMULATOR: Destselect sim (#1): response to scan: Y
+[04.271](11) SIMULATOR: Elevator sim (#0): Status is now C
+[04.291](11) SIMULATOR: Elevator sim (#0): Status is now O
+[04.611](11) SIMULATOR: Elevator sim (#0) moved from floor 2 to 1. Status is now C
+[04.631](11) SIMULATOR: Elevator sim (#0): Status is now O
+[04.750](17) SIMULATOR: Cardreader sim (#1): scanned code 4b6f9c1d4d55506c
+[04.750](13) OVERSEER: Received message from client: CARDREADER 102 SCANNED 4b6f9c1d4d55506c#
+[04.750](13) OVERSEER: Got scan from cardreader 102: 4b6f9c1d4d55506c
+[04.750](17) SIMULATOR: Cardreader sim (#1): response to scan: Y
+[04.750](0) DOOR.101: Received message: OPEN#
+[04.750](0) DOOR.101: Current status: C
+[04.750](0) DOOR.101: OPENING#
+[04.750](13) OVERSEER: Received OPENING# from door
+[04.750](4) SIMULATOR: Door sim (#0) woke up. Status = o
+[04.760](4) SIMULATOR: Door sim (#0) changed status to = O
+[04.760](0) DOOR.101: OPENED#
+[04.760](13) OVERSEER: Received OPENED# from door (should be OPENED#)
+[04.850](22) SIMULATOR: Camera sim (#4) simulated motion (angle: 105, status: O)
+[04.850](12) OVERSEER: Received message from client: CAMERA 55 MOTION#
+[04.850](12) OVERSEER: Received motion event from camera #55
+[04.850](12) OVERSEER: Alert in sector 9
 Security alarm triggered!
-[04.851](25) SIMULATOR: Security alarm has been triggered.
-[04.851](0) DOOR.501: Received message: CLOSE_SECURE#
-[04.851](0) DOOR.501: Current status: C
-[04.851](0) DOOR.501: CLOSING# (security)
-[04.851](0) DOOR.102: Received message: CLOSE_SECURE#
-[04.851](0) DOOR.102: Current status: C
-[04.851](6) SIMULATOR: Door sim (#4) woke up. Status = c
-[04.851](0) DOOR.102: CLOSING# (security)
-[04.851](0) SIMULATOR: Door sim (#1) woke up. Status = c
-[04.861](0) DOOR.101: Received message: CLOSE#
-[04.861](0) DOOR.101: Current status: O
-[04.861](0) DOOR.101: CLOSING#
-[04.861](9) OVERSEER: Received CLOSING# from door
-[04.861](4) SIMULATOR: Door sim (#0) woke up. Status = c
-[04.861](6) SIMULATOR: Door sim (#4) changed status to = C
-[04.861](0) DOOR.501: CLOSED# (security)
-[04.861](0) SIMULATOR: Door sim (#1) changed status to = C
-[04.861](0) DOOR.102: CLOSED# (security)
-[04.871](4) SIMULATOR: Door sim (#0) changed status to = C
-[04.871](0) DOOR.101: CLOSED#
-[04.871](9) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[05.850](26) SIMULATOR: Simulation ended, shutting down
+[04.850](23) SIMULATOR: Security alarm has been triggered.
+[04.850](0) DOOR.501: Received message: CLOSE_SECURE#
+[04.850](0) DOOR.501: Current status: C
+[04.850](0) DOOR.501: CLOSING# (security)
+[04.850](0) DOOR.102: Received message: CLOSE_SECURE#
+[04.850](2) SIMULATOR: Door sim (#4) woke up. Status = c
+[04.850](0) DOOR.102: Current status: C
+[04.850](0) DOOR.102: CLOSING# (security)
+[04.850](1) SIMULATOR: Door sim (#1) woke up. Status = c
+[04.860](0) DOOR.101: Received message: CLOSE#
+[04.860](0) DOOR.101: Current status: O
+[04.860](0) DOOR.101: CLOSING#
+[04.860](13) OVERSEER: Received CLOSING# from door
+[04.860](4) SIMULATOR: Door sim (#0) woke up. Status = c
+[04.860](2) SIMULATOR: Door sim (#4) changed status to = C
+[04.860](0) DOOR.501: CLOSED# (security)
+[04.860](1) SIMULATOR: Door sim (#1) changed status to = C
+[04.860](0) DOOR.102: CLOSED# (security)
+[04.870](4) SIMULATOR: Door sim (#0) changed status to = C
+[04.870](0) DOOR.101: CLOSED#
+[04.870](13) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[05.850](24) SIMULATOR: Simulation ended, shutting down
 """
 
 cardreader_3_submission = """
@@ -5338,144 +5338,159 @@ door_3_reference = """
 
 door_1_submission = """
 [00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
-[00.249](0) SIMULATOR: Door sim (#0) started
-[00.249](1) SIMULATOR: Cardreader sim (#0) started
-[00.249](2) SIMULATOR: Cardreader sim (#2) started
+[00.249](0) SIMULATOR: Cardreader sim (#2) started
+[00.249](1) SIMULATOR: Cardreader sim (#3) started
+[00.249](2) SIMULATOR: Cardreader sim (#0) started
 [00.249](3) SIMULATOR: Cardreader sim (#1) started
-[00.249](4) SIMULATOR: Cardreader sim (#3) started
-[00.249](5) SIMULATOR: Door sim (#1) started
-[00.251](1) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4302 FAIL_SECURE#
-[00.251](1) OVERSEER: Registered door #102 @127.0.0.1:4302 (FAIL_SECURE#)
-[00.251](2) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4301 FAIL_SAFE#
-[00.251](2) OVERSEER: Registered door #101 @127.0.0.1:4301 (FAIL_SAFE#)
-[00.251](0) CARDREADER.102: Starting up. Shm path: /shm. Offset: 352. Overseer addr: 127.0.0.1:4300
-[00.252](0) CARDREADER.102: Attempting to connect to 127.0.0.1:4300
-[00.252](0) CARDREADER.102: Sending HELLO#
-[00.252](0) CARDREADER.101: Starting up. Shm path: /shm. Offset: 192. Overseer addr: 127.0.0.1:4300
-[00.252](0) CARDREADER.101: Attempting to connect to 127.0.0.1:4300
+[00.249](4) SIMULATOR: Door sim (#1) started
+[00.249](5) SIMULATOR: Door sim (#0) started
 [00.252](0) CARDREADER.104: Starting up. Shm path: /shm. Offset: 672. Overseer addr: 127.0.0.1:4300
 [00.252](0) CARDREADER.104: Attempting to connect to 127.0.0.1:4300
+[00.252](0) CARDREADER.104: Sending HELLO#
 [00.252](0) CARDREADER.103: Starting up. Shm path: /shm. Offset: 512. Overseer addr: 127.0.0.1:4300
 [00.252](0) CARDREADER.103: Attempting to connect to 127.0.0.1:4300
-[00.252](0) CARDREADER.101: Sending HELLO#
-[00.252](0) CARDREADER.104: Sending HELLO#
 [00.252](0) CARDREADER.103: Sending HELLO#
-[00.252](3) OVERSEER: Received message from client: CARDREADER 104 HELLO#
-[00.252](3) OVERSEER: Got reg event from cardreader 104
-[00.252](2) OVERSEER: Received message from client: CARDREADER 102 HELLO#
-[00.252](2) OVERSEER: Got reg event from cardreader 102
-[00.252](4) OVERSEER: Received message from client: CARDREADER 101 HELLO#
-[00.252](4) OVERSEER: Got reg event from cardreader 101
-[00.252](5) OVERSEER: Received message from client: CARDREADER 103 HELLO#
-[00.252](5) OVERSEER: Got reg event from cardreader 103
-[01.299](6) SIMULATOR: Simulated input to overseer: DOOR LIST
-102 127.0.0.1:4302 FAIL_SECURE
+[00.253](0) CARDREADER.101: Starting up. Shm path: /shm. Offset: 192. Overseer addr: 127.0.0.1:4300
+[00.253](0) CARDREADER.101: Attempting to connect to 127.0.0.1:4300
+[00.253](0) CARDREADER.102: Starting up. Shm path: /shm. Offset: 352. Overseer addr: 127.0.0.1:4300
+[00.253](0) CARDREADER.102: Attempting to connect to 127.0.0.1:4300
+[00.253](0) CARDREADER.102: Sending HELLO#
+[00.253](0) CARDREADER.101: Sending HELLO#
+[00.253](1) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4301 FAIL_SAFE#
+[00.253](2) OVERSEER: Received message from client: CARDREADER 104 HELLO#
+[00.253](3) OVERSEER: Received message from client: CARDREADER 101 HELLO#
+[00.253](2) OVERSEER: Got reg event from cardreader 104
+[00.253](3) OVERSEER: Got reg event from cardreader 101
+[00.253](4) OVERSEER: Received message from client: CARDREADER 102 HELLO#
+[00.253](4) OVERSEER: Got reg event from cardreader 102
+[00.253](5) OVERSEER: Received message from client: CARDREADER 103 HELLO#
+[00.253](5) OVERSEER: Got reg event from cardreader 103
+[00.253](1) OVERSEER: Registered door #101 @127.0.0.1:4301 (FAIL_SAFE#)
+[00.253](6) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4302 FAIL_SECURE#
+[00.253](6) OVERSEER: Registered door #102 @127.0.0.1:4302 (FAIL_SECURE#)
+[01.298](6) SIMULATOR: Simulated input to overseer: DOOR LIST
 101 127.0.0.1:4301 FAIL_SAFE
-[01.349](6) SIMULATOR: Simulated input to overseer: DOOR OPEN 102
-[01.349](1) SIMULATOR: Cardreader sim (#0): scanned code db4ed0a0bfbb00ac
-[01.349](0) CARDREADER.101: Scanned code: db4ed0a0bfbb00ac - connecting to overseer
-[01.349](5) SIMULATOR: Door sim (#1) woke up. Status = o
-[01.349](5) OVERSEER: Received message from client: CARDREADER 101 SCANNED db4ed0a0bfbb00ac#
-[01.349](5) OVERSEER: Got scan from cardreader 101: db4ed0a0bfbb00ac
+102 127.0.0.1:4302 FAIL_SECURE
+[01.348](6) SIMULATOR: Simulated input to overseer: DOOR OPEN 102
+[01.348](2) SIMULATOR: Cardreader sim (#0): scanned code db4ed0a0bfbb00ac
+[01.348](0) CARDREADER.101: Scanned code: db4ed0a0bfbb00ac - connecting to overseer
+[01.348](4) SIMULATOR: Door sim (#1) woke up. Status = o
+[01.348](6) OVERSEER: Received message from client: CARDREADER 101 SCANNED db4ed0a0bfbb00ac#
+[01.348](6) OVERSEER: Got scan from cardreader 101: db4ed0a0bfbb00ac
 [01.349](0) CARDREADER.101: Received response: ALLOWED#
-[01.349](1) SIMULATOR: Cardreader sim (#0): response to scan: Y
-[01.349](5) OVERSEER: Received OPENING# from door
-[01.349](0) SIMULATOR: Door sim (#0) woke up. Status = o
-[01.359](5) SIMULATOR: Door sim (#1) changed status to = O
-[01.359](0) SIMULATOR: Door sim (#0) changed status to = O
-[01.360](5) OVERSEER: Received OPENED# from door (should be OPENED#)
-[01.449](6) SIMULATOR: Simulated input to overseer: DOOR CLOSE 102
-[01.449](5) SIMULATOR: Door sim (#1) woke up. Status = c
-[01.459](5) SIMULATOR: Door sim (#1) changed status to = C
-[01.460](5) OVERSEER: Received CLOSING# from door
-[01.460](0) SIMULATOR: Door sim (#0) woke up. Status = c
-[01.470](0) SIMULATOR: Door sim (#0) changed status to = C
-[01.470](5) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[01.549](1) SIMULATOR: Cardreader sim (#0): scanned code 2214a7ba5943d923
-[01.549](0) CARDREADER.101: Scanned code: 2214a7ba5943d923 - connecting to overseer
-[01.549](5) OVERSEER: Received message from client: CARDREADER 101 SCANNED 2214a7ba5943d923#
-[01.549](5) OVERSEER: Got scan from cardreader 101: 2214a7ba5943d923
+[01.349](2) SIMULATOR: Cardreader sim (#0): response to scan: Y
+[01.349](6) OVERSEER: Received OPENING# from door
+[01.349](5) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.358](4) SIMULATOR: Door sim (#1) changed status to = O
+[01.359](5) SIMULATOR: Door sim (#0) changed status to = O
+[01.359](6) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.448](6) SIMULATOR: Simulated input to overseer: DOOR CLOSE 102
+[01.448](4) SIMULATOR: Door sim (#1) woke up. Status = c
+[01.458](4) SIMULATOR: Door sim (#1) changed status to = C
+[01.459](6) OVERSEER: Received CLOSING# from door
+[01.459](5) SIMULATOR: Door sim (#0) woke up. Status = c
+[01.469](5) SIMULATOR: Door sim (#0) changed status to = C
+[01.469](6) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[01.548](2) SIMULATOR: Cardreader sim (#0): scanned code 2214a7ba5943d923
+[01.548](0) CARDREADER.101: Scanned code: 2214a7ba5943d923 - connecting to overseer
+[01.548](6) OVERSEER: Received message from client: CARDREADER 101 SCANNED 2214a7ba5943d923#
+[01.548](6) OVERSEER: Got scan from cardreader 101: 2214a7ba5943d923
 [01.549](0) CARDREADER.101: Received response: ALLOWED#
-[01.549](1) SIMULATOR: Cardreader sim (#0): response to scan: Y
-[01.549](5) OVERSEER: Received OPENING# from door
-[01.549](0) SIMULATOR: Door sim (#0) woke up. Status = o
-[01.559](0) SIMULATOR: Door sim (#0) changed status to = O
-[01.559](5) OVERSEER: Received OPENED# from door (should be OPENED#)
-[01.569](6) SIMULATOR: Simulated input to overseer: DOOR CLOSE 101
-[01.569](0) SIMULATOR: Door sim (#0) woke up. Status = c
-[01.579](0) SIMULATOR: Door sim (#0) changed status to = C
-[01.660](5) OVERSEER: Received ALREADY# from door
-[01.749](2) SIMULATOR: Cardreader sim (#2): scanned code db4ed0a0bfbb00ac
-[01.749](0) CARDREADER.103: Scanned code: db4ed0a0bfbb00ac - connecting to overseer
-[01.749](5) OVERSEER: Received message from client: CARDREADER 103 SCANNED db4ed0a0bfbb00ac#
-[01.749](5) OVERSEER: Got scan from cardreader 103: db4ed0a0bfbb00ac
+[01.549](2) SIMULATOR: Cardreader sim (#0): response to scan: Y
+[01.549](6) OVERSEER: Received OPENING# from door
+[01.549](5) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.559](5) SIMULATOR: Door sim (#0) changed status to = O
+[01.559](6) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.568](6) SIMULATOR: Simulated input to overseer: DOOR CLOSE 101
+[01.568](5) SIMULATOR: Door sim (#0) woke up. Status = c
+[01.578](5) SIMULATOR: Door sim (#0) changed status to = C
+[01.659](6) OVERSEER: Received ALREADY# from door
+[01.748](0) SIMULATOR: Cardreader sim (#2): scanned code db4ed0a0bfbb00ac
+[01.748](0) CARDREADER.103: Scanned code: db4ed0a0bfbb00ac - connecting to overseer
+[01.748](6) OVERSEER: Received message from client: CARDREADER 103 SCANNED db4ed0a0bfbb00ac#
+[01.748](6) OVERSEER: Got scan from cardreader 103: db4ed0a0bfbb00ac
 [01.749](0) CARDREADER.103: Received response: DENIED#
-[01.749](2) SIMULATOR: Cardreader sim (#2): response to scan: N
-[01.949](2) SIMULATOR: Cardreader sim (#2): scanned code 2214a7ba5943d923
-[01.949](0) CARDREADER.103: Scanned code: 2214a7ba5943d923 - connecting to overseer
-[01.949](5) OVERSEER: Received message from client: CARDREADER 103 SCANNED 2214a7ba5943d923#
-[01.949](5) OVERSEER: Got scan from cardreader 103: 2214a7ba5943d923
-[01.949](0) CARDREADER.103: Received response: ALLOWED#
-[01.949](2) SIMULATOR: Cardreader sim (#2): response to scan: Y
-[01.949](5) OVERSEER: Received OPENING# from door
-[01.949](5) SIMULATOR: Door sim (#1) woke up. Status = o
-[01.960](5) SIMULATOR: Door sim (#1) changed status to = O
-[01.960](5) OVERSEER: Received OPENED# from door (should be OPENED#)
-[02.049](6) SIMULATOR: Simulated input to overseer: DOOR OPEN 101
-[02.049](0) SIMULATOR: Door sim (#0) woke up. Status = o
-[02.059](0) SIMULATOR: Door sim (#0) changed status to = O
-[02.060](5) OVERSEER: Received CLOSING# from door
-[02.060](5) SIMULATOR: Door sim (#1) woke up. Status = c
-[02.070](5) SIMULATOR: Door sim (#1) changed status to = C
-[02.070](5) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[02.149](4) SIMULATOR: Cardreader sim (#3): scanned code 2214a7ba5943d923
-[02.149](0) CARDREADER.104: Scanned code: 2214a7ba5943d923 - connecting to overseer
-[02.149](5) OVERSEER: Received message from client: CARDREADER 104 SCANNED 2214a7ba5943d923#
-[02.149](5) OVERSEER: Got scan from cardreader 104: 2214a7ba5943d923
-[02.149](0) CARDREADER.104: Received response: ALLOWED#
-[02.149](4) SIMULATOR: Cardreader sim (#3): response to scan: Y
-[02.149](5) OVERSEER: Received OPENING# from door
-[02.149](5) SIMULATOR: Door sim (#1) woke up. Status = o
-[02.159](5) SIMULATOR: Door sim (#1) changed status to = O
-[02.160](5) OVERSEER: Received OPENED# from door (should be OPENED#)
-[02.260](5) OVERSEER: Received CLOSING# from door
-[02.260](5) SIMULATOR: Door sim (#1) woke up. Status = c
-[02.270](5) SIMULATOR: Door sim (#1) changed status to = C
-[02.270](5) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[03.149](6) SIMULATOR: Simulation ended, shutting down
+[01.749](0) SIMULATOR: Cardreader sim (#2): response to scan: N
+[01.948](0) SIMULATOR: Cardreader sim (#2): scanned code 2214a7ba5943d923
+[01.948](0) CARDREADER.103: Scanned code: 2214a7ba5943d923 - connecting to overseer
+[01.948](6) OVERSEER: Received message from client: CARDREADER 103 SCANNED 2214a7ba5943d923#
+[01.948](6) OVERSEER: Got scan from cardreader 103: 2214a7ba5943d923
+[01.948](0) CARDREADER.103: Received response: ALLOWED#
+[01.949](0) SIMULATOR: Cardreader sim (#2): response to scan: Y
+[01.949](6) OVERSEER: Received OPENING# from door
+[01.949](4) SIMULATOR: Door sim (#1) woke up. Status = o
+[01.959](4) SIMULATOR: Door sim (#1) changed status to = O
+[01.959](6) OVERSEER: Received OPENED# from door (should be OPENED#)
+[02.048](6) SIMULATOR: Simulated input to overseer: DOOR OPEN 101
+[02.048](5) SIMULATOR: Door sim (#0) woke up. Status = o
+[02.058](5) SIMULATOR: Door sim (#0) changed status to = O
+[02.059](6) OVERSEER: Received CLOSING# from door
+[02.059](4) SIMULATOR: Door sim (#1) woke up. Status = c
+[02.069](4) SIMULATOR: Door sim (#1) changed status to = C
+[02.069](6) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[02.148](1) SIMULATOR: Cardreader sim (#3): scanned code 2214a7ba5943d923
+[02.148](0) CARDREADER.104: Scanned code: 2214a7ba5943d923 - connecting to overseer
+[02.148](6) OVERSEER: Received message from client: CARDREADER 104 SCANNED 2214a7ba5943d923#
+[02.148](6) OVERSEER: Got scan from cardreader 104: 2214a7ba5943d923
+[02.148](0) CARDREADER.104: Received response: ALLOWED#
+[02.149](1) SIMULATOR: Cardreader sim (#3): response to scan: Y
+[02.149](6) OVERSEER: Received OPENING# from door
+[02.149](4) SIMULATOR: Door sim (#1) woke up. Status = o
+[02.159](4) SIMULATOR: Door sim (#1) changed status to = O
+[02.159](6) OVERSEER: Received OPENED# from door (should be OPENED#)
+[02.259](6) OVERSEER: Received CLOSING# from door
+[02.259](4) SIMULATOR: Door sim (#1) woke up. Status = c
+[02.269](4) SIMULATOR: Door sim (#1) changed status to = C
+[02.269](6) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[03.148](6) SIMULATOR: Simulation ended, shutting down
 """
 
 door_2_submission = """
 [00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
-[00.248](0) SIMULATOR: Launching firealarm
-[00.248](1) SIMULATOR: Door sim (#1) started
-[00.248](2) SIMULATOR: Door sim (#0) started
-[00.248](3) SIMULATOR: Cardreader sim (#0) started
+[00.247](0) SIMULATOR: Launching firealarm
+[00.248](1) SIMULATOR: Cardreader sim (#0) started
+[00.248](2) SIMULATOR: Door sim (#1) started
+[00.248](3) SIMULATOR: Door sim (#0) started
 [00.250](1) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4403 FAIL_SECURE#
 [00.250](1) OVERSEER: Registered door #102 @127.0.0.1:4403 (FAIL_SECURE#)
-[00.250](2) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4402 FAIL_SAFE#
-[00.250](2) OVERSEER: Registered door #101 @127.0.0.1:4402 (FAIL_SAFE#)
-[00.250](0) CARDREADER.103: Starting up. Shm path: /shm. Offset: 192. Overseer addr: 127.0.0.1:4400
-[00.250](0) CARDREADER.103: Attempting to connect to 127.0.0.1:4400
-[00.250](0) CARDREADER.103: Sending HELLO#
-[00.250](2) OVERSEER: Received message from client: CARDREADER 103 HELLO#
-[00.250](2) OVERSEER: Got reg event from cardreader 103
-[00.250](0) FIREALARM: Starting up. Temperature threshold: 50.00. Min detections: 3. Detection period: 20000us. Shm path: /shm. Offset: 0. Overseer addr: 127.0.0.1:4400
-[00.250](0) FIREALARM: Binding addr 127.0.0.1:4401
-[00.250](2) OVERSEER: Received message from client: FIREALARM 127.0.0.1:4401 HELLO#
-[00.250](2) OVERSEER: Registered fire alarm @127.0.0.1:4401
-[00.250](1) OVERSEER: Sending packet to 127.0.0.1:4402
+[00.251](1) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4402 FAIL_SAFE#
+[00.251](1) OVERSEER: Registered door #101 @127.0.0.1:4402 (FAIL_SAFE#)
+[00.251](0) FIREALARM: Starting up. Temperature threshold: 50.00. Min detections: 3. Detection period: 20000us. Shm path: /shm. Offset: 0. Overseer addr: 127.0.0.1:4400
+[00.251](0) FIREALARM: Binding addr 127.0.0.1:4401
+[00.251](1) OVERSEER: Received message from client: FIREALARM 127.0.0.1:4401 HELLO#
+[00.251](1) OVERSEER: Registered fire alarm @127.0.0.1:4401
+[00.251](2) OVERSEER: Sending packet to 127.0.0.1:4402
 [00.251](0) FIREALARM: Got door registration packet
-[01.398](0) SIMULATOR: Simulated input to overseer: FIRE ALARM
+[00.252](0) CARDREADER.103: Starting up. Shm path: /shm. Offset: 192. Overseer addr: 127.0.0.1:4400
+[00.253](0) CARDREADER.103: Attempting to connect to 127.0.0.1:4400
+[00.253](0) CARDREADER.103: Sending HELLO#
+[00.253](1) OVERSEER: Received message from client: CARDREADER 103 HELLO#
+[00.253](1) OVERSEER: Got reg event from cardreader 103
+[01.397](0) SIMULATOR: Simulated input to overseer: FIRE ALARM
 Fire alarm triggered!
 [01.398](0) FIREALARM: Fire alarm activated!
 [01.398](0) FIREALARM: Contacting door #0 @ 127.0.0.1:4402
 [01.398](4) SIMULATOR: Security alarm has been triggered.
 [01.398](0) FIREALARM: Got reply: 
-[01.398](2) SIMULATOR: Door sim (#0) woke up. Status = o
-[01.408](2) SIMULATOR: Door sim (#0) changed status to = O
-[01.448](0) SIMULATOR: Simulated input to overseer: DOOR CLOSE 101
-[01.448](0) OVERSEER: **ERROR** connect(): Connection refused
+[01.398](3) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.408](3) SIMULATOR: Door sim (#0) changed status to = O
+[01.447](0) SIMULATOR: Simulated input to overseer: DOOR CLOSE 101
+Door reports that it open due to an emergency and cannot be closed
+[01.548](1) SIMULATOR: Cardreader sim (#0): scanned code 2214a7ba5943d923
+[01.548](0) CARDREADER.103: Scanned code: 2214a7ba5943d923 - connecting to overseer
+[01.548](2) OVERSEER: Received message from client: CARDREADER 103 SCANNED 2214a7ba5943d923#
+[01.548](2) OVERSEER: Got scan from cardreader 103: 2214a7ba5943d923
+[01.548](0) CARDREADER.103: Received response: ALLOWED#
+[01.548](1) SIMULATOR: Cardreader sim (#0): response to scan: Y
+[01.548](2) OVERSEER: Received OPENING# from door
+[01.548](2) SIMULATOR: Door sim (#1) woke up. Status = o
+[01.558](2) SIMULATOR: Door sim (#1) changed status to = O
+[01.558](2) OVERSEER: Received OPENED# from door (should be OPENED#)
+[01.658](2) OVERSEER: Received CLOSING# from door
+[01.658](2) SIMULATOR: Door sim (#1) woke up. Status = c
+[01.668](2) SIMULATOR: Door sim (#1) changed status to = C
+[01.668](2) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[02.547](0) SIMULATOR: Simulation ended, shutting down
 """
 
 door_3_submission = """
@@ -7890,6 +7905,36 @@ detection period: 20000
 [02.851](0) SIMULATOR: Simulation ended, shutting down
 """
 
+firealarm_1_reference = """
+[00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
+[00.248](0) SIMULATOR: Launching firealarm
+[00.248](0) SIMULATOR: Launching callpoint
+[00.249](1) SIMULATOR: Door sim (#0) started
+[00.249](2) SIMULATOR: Callpoint sim (#0) started
+[00.249](3) SIMULATOR: Door sim (#1) started
+[00.251](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4700
+[00.251](0) DOOR.101: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6592. Overseer addr: 127.0.0.1:4700
+[00.251](0) CALLPOINT: Starting up. Resend delay: 103us. Shm path: /shm. Offset: 11392. Firealarm addr: 127.0.0.1:4701
+[00.251](0) DOOR.102: Binding addr 127.0.0.1:4703
+[00.251](0) DOOR.101: Binding addr 127.0.0.1:4702
+[00.251](1) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4703 FAIL_SECURE#
+[00.251](2) OVERSEER: Received message from client: FIREALARM 127.0.0.1:4701 HELLO#
+[00.251](1) OVERSEER: Registered door #102 @127.0.0.1:4703 (FAIL_SECURE#)
+[00.251](3) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4702 FAIL_SAFE#
+[00.251](2) OVERSEER: Registered fire alarm @127.0.0.1:4701
+[00.251](3) OVERSEER: Registered door #101 @127.0.0.1:4702 (FAIL_SAFE#)
+[01.259](2) SIMULATOR: Callpoint sim (#0) was triggered
+[01.259](0) CALLPOINT: Callpoint has been triggered
+[01.259](4) SIMULATOR: Security alarm has been triggered.
+[01.259](0) DOOR.101: Received message: OPEN_EMERG#
+[01.259](0) DOOR.101: Current status: C
+[01.259](0) DOOR.101: OPENING# (emergency)
+[01.259](1) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.269](1) SIMULATOR: Door sim (#0) changed status to = O
+[01.269](0) DOOR.101: OPENED# (emergency)
+[02.259](0) SIMULATOR: Simulation ended, shutting down
+"""
+
 firealarm_2_reference = """
 [00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
 [00.248](0) SIMULATOR: Launching firealarm
@@ -7950,285 +7995,92 @@ Door reports that it open due to an emergency and cannot be closed
 [02.549](0) SIMULATOR: Simulation ended, shutting down
 """
 
+firealarm_1_submission = """
+[00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
+[00.248](0) SIMULATOR: Launching firealarm
+[00.248](0) SIMULATOR: Launching callpoint
+[00.249](1) SIMULATOR: Door sim (#0) started
+[00.249](2) SIMULATOR: Callpoint sim (#0) started
+[00.249](3) SIMULATOR: Door sim (#1) started
+[00.251](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4700
+[00.251](0) DOOR.101: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6592. Overseer addr: 127.0.0.1:4700
+[00.251](0) CALLPOINT: Starting up. Resend delay: 103us. Shm path: /shm. Offset: 11392. Firealarm addr: 127.0.0.1:4701
+[00.251](0) DOOR.102: Binding addr 127.0.0.1:4703
+[00.251](0) DOOR.101: Binding addr 127.0.0.1:4702
+[00.251](1) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4703 FAIL_SECURE#
+[00.251](2) OVERSEER: Received message from client: FIREALARM 127.0.0.1:4701 HELLO#
+[00.251](1) OVERSEER: Registered door #102 @127.0.0.1:4703 (FAIL_SECURE#)
+[00.251](3) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4702 FAIL_SAFE#
+[00.251](2) OVERSEER: Registered fire alarm @127.0.0.1:4701
+[00.251](3) OVERSEER: Registered door #101 @127.0.0.1:4702 (FAIL_SAFE#)
+[01.259](2) SIMULATOR: Callpoint sim (#0) was triggered
+[01.259](0) CALLPOINT: Callpoint has been triggered
+[01.259](4) SIMULATOR: Security alarm has been triggered.
+[01.259](0) DOOR.101: Received message: OPEN_EMERG#
+[01.259](0) DOOR.101: Current status: C
+[01.259](0) DOOR.101: OPENING# (emergency)
+[01.259](1) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.269](1) SIMULATOR: Door sim (#0) changed status to = O
+[01.269](0) DOOR.101: OPENED# (emergency)
+[02.259](0) SIMULATOR: Simulation ended, shutting down
+"""
+
 firealarm_2_submission = """
 [00.000](0) OVERSEER: Starting up. Door open duration: 100000us Datagram resend delay: 10000us. Auth file: authorisation.txt. Connections file: connections.txt. Layout file: layout.txt. Shared memory space: /shm. Shared memory offset: 0
 [00.248](0) SIMULATOR: Launching firealarm
-[00.248](1) SIMULATOR: Door sim (#1) started
-[00.248](2) SIMULATOR: Door sim (#0) started
-[00.248](3) SIMULATOR: Cardreader sim (#0) started
-min detections: 3
-detection period: 20000
-[00.250](1) OVERSEER: Received message from client: FIREALARM 127.0.0.1:4801 HELLO#
-[00.250](1) OVERSEER: Registered fire alarm @127.0.0.1:4801
-[00.250](0) CARDREADER.103: Starting up. Shm path: /shm. Offset: 192. Overseer addr: 127.0.0.1:4800
-[00.250](0) CARDREADER.103: Attempting to connect to 127.0.0.1:4800
-[00.250](0) CARDREADER.103: Sending HELLO#
-[00.250](1) OVERSEER: Received message from client: CARDREADER 103 HELLO#
-[00.250](1) OVERSEER: Got reg event from cardreader 103
-[00.251](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4800
-[00.251](0) DOOR.102: Binding addr 127.0.0.1:4803
-[00.251](1) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4803 FAIL_SECURE#
-[00.251](1) OVERSEER: Registered door #102 @127.0.0.1:4803 (FAIL_SECURE#)
+[00.249](1) SIMULATOR: Cardreader sim (#0) started
+[00.249](2) SIMULATOR: Door sim (#0) started
+[00.249](3) SIMULATOR: Door sim (#1) started
 [00.251](0) DOOR.101: Starting up. Mode: FAIL_SAFE. Shm path: /shm. Offset: 6592. Overseer addr: 127.0.0.1:4800
 [00.251](0) DOOR.101: Binding addr 127.0.0.1:4802
-[00.251](1) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4802 FAIL_SAFE#
-[00.251](1) OVERSEER: Registered door #101 @127.0.0.1:4802 (FAIL_SAFE#)
-[00.251](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.261](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.271](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.281](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.291](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.302](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.312](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.322](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.332](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.342](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.352](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.362](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.372](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.382](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.392](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.402](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.412](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.422](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.433](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.443](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.453](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.463](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.473](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.483](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.493](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.503](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.513](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.523](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.533](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.543](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.553](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.564](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.574](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.584](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.594](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.604](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.614](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.624](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.634](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.644](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.654](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.664](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.674](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.684](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.694](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.705](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.715](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.725](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.735](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.745](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.755](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.765](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.775](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.785](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.795](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.805](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.815](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.825](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.836](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.846](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.856](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.866](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.876](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.886](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.896](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.906](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.916](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.926](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.936](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.946](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.957](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.967](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.977](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.987](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[00.997](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.007](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.017](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.027](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.037](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.047](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.057](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.067](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.077](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.088](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.098](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.108](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.118](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.128](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.138](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.148](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.158](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.168](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.178](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.188](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.198](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.208](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.218](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.229](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.239](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.249](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.259](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.269](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.279](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.289](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.299](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.309](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.319](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.329](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.339](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.349](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.359](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.370](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.380](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.390](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.398](0) SIMULATOR: Simulated input to overseer: FIRE ALARM
+[00.251](0) DOOR.102: Starting up. Mode: FAIL_SECURE. Shm path: /shm. Offset: 6736. Overseer addr: 127.0.0.1:4800
+[00.251](0) DOOR.102: Binding addr 127.0.0.1:4803
+[00.251](0) CARDREADER.103: Starting up. Shm path: /shm. Offset: 192. Overseer addr: 127.0.0.1:4800
+[00.251](0) CARDREADER.103: Attempting to connect to 127.0.0.1:4800
+[00.251](0) CARDREADER.103: Sending HELLO#
+[00.251](1) OVERSEER: Received message from client: FIREALARM 127.0.0.1:4801 HELLO#
+[00.251](1) OVERSEER: Registered fire alarm @127.0.0.1:4801
+[00.251](2) OVERSEER: Received message from client: DOOR 101 127.0.0.1:4802 FAIL_SAFE#
+[00.251](3) OVERSEER: Received message from client: DOOR 102 127.0.0.1:4803 FAIL_SECURE#
+[00.251](4) OVERSEER: Received message from client: CARDREADER 103 HELLO#
+[00.252](4) OVERSEER: Got reg event from cardreader 103
+[00.252](3) OVERSEER: Registered door #102 @127.0.0.1:4803 (FAIL_SECURE#)
+[00.251](2) OVERSEER: Registered door #101 @127.0.0.1:4802 (FAIL_SAFE#)
+[01.399](0) SIMULATOR: Simulated input to overseer: FIRE ALARM
 Fire alarm triggered!
-[01.400](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.410](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.420](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.430](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.440](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.448](0) SIMULATOR: Simulated input to overseer: DOOR CLOSE 101
-[01.448](0) DOOR.101: Received message: CLOSE#
-[01.448](0) DOOR.101: Current status: C
-[01.448](0) DOOR.101: ALREADY#
-Door reports that it is already closed
-[01.450](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.460](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.470](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.480](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.490](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.501](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.511](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.521](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.531](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.541](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.548](3) SIMULATOR: Cardreader sim (#0): scanned code 2214a7ba5943d923
-[01.548](0) CARDREADER.103: Scanned code: 2214a7ba5943d923 - connecting to overseer
-[01.548](1) OVERSEER: Received message from client: CARDREADER 103 SCANNED 2214a7ba5943d923#
-[01.548](1) OVERSEER: Got scan from cardreader 103: 2214a7ba5943d923
-[01.548](0) CARDREADER.103: Received response: ALLOWED#
-[01.548](3) SIMULATOR: Cardreader sim (#0): response to scan: Y
-[01.548](0) DOOR.102: Received message: OPEN#
-[01.548](0) DOOR.102: Current status: C
-[01.548](0) DOOR.102: OPENING#
-[01.548](1) OVERSEER: Received OPENING# from door
-[01.548](1) SIMULATOR: Door sim (#1) woke up. Status = o
-[01.551](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.558](1) SIMULATOR: Door sim (#1) changed status to = O
-[01.558](0) DOOR.102: OPENED#
-[01.558](1) OVERSEER: Received OPENED# from door (should be OPENED#)
-[01.561](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.571](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.581](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.591](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.601](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.611](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.621](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.632](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.642](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.652](2) OVERSEER: Sending packet to 127.0.0.1:4802
+[01.399](4) SIMULATOR: Security alarm has been triggered.
+[01.399](0) DOOR.101: Received message: OPEN_EMERG#
+[01.399](0) DOOR.101: Current status: C
+[01.399](0) DOOR.101: OPENING# (emergency)
+[01.399](2) SIMULATOR: Door sim (#0) woke up. Status = o
+[01.409](2) SIMULATOR: Door sim (#0) changed status to = O
+[01.409](0) DOOR.101: OPENED# (emergency)
+[01.449](0) SIMULATOR: Simulated input to overseer: DOOR CLOSE 101
+[01.449](0) DOOR.101: Received message: CLOSE#
+[01.449](0) DOOR.101: Current status: O
+[01.449](0) DOOR.101: EMERGENCY_MODE#
+Door reports that it open due to an emergency and cannot be closed
+[01.549](1) SIMULATOR: Cardreader sim (#0): scanned code 2214a7ba5943d923
+[01.549](0) CARDREADER.103: Scanned code: 2214a7ba5943d923 - connecting to overseer
+[01.549](5) OVERSEER: Received message from client: CARDREADER 103 SCANNED 2214a7ba5943d923#
+[01.549](5) OVERSEER: Got scan from cardreader 103: 2214a7ba5943d923
+[01.549](0) CARDREADER.103: Received response: ALLOWED#
+[01.549](1) SIMULATOR: Cardreader sim (#0): response to scan: Y
+[01.549](0) DOOR.102: Received message: OPEN#
+[01.549](0) DOOR.102: Current status: C
+[01.549](0) DOOR.102: OPENING#
+[01.549](5) OVERSEER: Received OPENING# from door
+[01.549](3) SIMULATOR: Door sim (#1) woke up. Status = o
+[01.559](3) SIMULATOR: Door sim (#1) changed status to = O
+[01.559](0) DOOR.102: OPENED#
+[01.559](5) OVERSEER: Received OPENED# from door (should be OPENED#)
 [01.659](0) DOOR.102: Received message: CLOSE#
 [01.659](0) DOOR.102: Current status: O
 [01.659](0) DOOR.102: CLOSING#
-[01.659](1) SIMULATOR: Door sim (#1) woke up. Status = c
-[01.659](1) OVERSEER: Received CLOSING# from door
-[01.662](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.669](1) SIMULATOR: Door sim (#1) changed status to = C
-[01.669](0) DOOR.102: CLOSED#
-[01.669](1) OVERSEER: Received CLOSED# from door (should be CLOSED#)
-[01.672](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.682](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.692](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.702](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.712](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.722](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.732](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.742](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.753](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.763](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.773](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.783](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.793](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.803](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.813](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.823](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.833](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.843](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.853](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.863](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.873](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.884](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.894](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.904](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.914](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.924](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.934](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.944](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.954](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.964](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.974](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.984](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[01.995](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.005](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.015](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.025](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.035](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.045](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.055](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.065](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.076](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.086](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.096](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.106](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.116](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.126](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.136](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.146](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.156](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.166](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.176](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.186](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.196](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.207](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.217](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.227](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.237](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.247](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.257](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.267](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.277](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.287](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.297](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.307](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.317](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.328](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.338](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.348](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.358](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.368](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.378](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.388](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.398](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.408](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.418](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.428](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.438](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.448](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.458](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.469](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.479](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.489](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.499](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.509](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.519](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.529](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.539](2) OVERSEER: Sending packet to 127.0.0.1:4802
-[02.548](0) SIMULATOR: Simulation ended, shutting down
+[01.660](5) OVERSEER: Received CLOSING# from door
+[01.660](3) SIMULATOR: Door sim (#1) woke up. Status = c
+[01.670](3) SIMULATOR: Door sim (#1) changed status to = C
+[01.670](0) DOOR.102: CLOSED#
+[01.670](5) OVERSEER: Received CLOSED# from door (should be CLOSED#)
+[02.549](0) SIMULATOR: Simulation ended, shutting down
 """

@@ -48,4 +48,11 @@ typedef struct {
     pthread_cond_t cond;
 } shm_overseer_t;
 
+// Shared memory struct for temperature sensor
+typedef struct {
+    float temperature;
+    pthread_mutex_t mutex;
+    pthread_cond_t cond;
+} shm_tempsensor_t;
+
 #endif

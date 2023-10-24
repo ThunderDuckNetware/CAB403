@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 
     // Open and map shared memory
     void *shm = open_shared_memory(shm_path);
-    shm_firealarm *shm_fire =  (shm_firealarm *)(shm + shm_offset);
+    shm_firealarm_t *shm_fire =  (shm_firealarm_t *)(shm + shm_offset);
 
     // Bind UDP socket
     int fire_unit_fd = bind_udp_socket(fire_alarm_address_port);
@@ -55,8 +55,8 @@ int main(int argc, char **argv)
     close(overseer_fd);
 
     // Init lists. Max 100 failsafe doors and 50 detections.
-    const int MAX_DOORS = 100;
-    door_reg_dgram failsafe_doors[MAX_DOORS];
+    const int MAX_DOOR = 100;
+    door_reg_dgram failsafe_doors[MAX_DOOR];
     memset(failsafe_doors, 0, sizeof(failsafe_doors));
     const int MAX_DETECTIONS = 50;
     struct timeval detections[MAX_DETECTIONS];
@@ -156,7 +156,7 @@ int main(int argc, char **argv)
 
             // If the door is not already on the door list, add it
             int doorExists = 0;
-            for (int i = 0; i < MAX_DOORS; i++)
+            for (int i = 0; i < MAX_DOOR; i++)
             {
                 if (failsafe_doors[i].door_port == new_door->door_port) // If the door is already on the door list
                 {
@@ -166,7 +166,7 @@ int main(int argc, char **argv)
             }
             if (!doorExists)
             {
-                for (int i = 0; i < MAX_DOORS; i++)
+                for (int i = 0; i < MAX_DOOR; i++)
                 {
                     if (failsafe_doors[i].door_port == 0) // Where there is an empty slot in the door list
                     {
@@ -207,7 +207,7 @@ int main(int argc, char **argv)
             pthread_cond_signal(&shm_fire->cond);
 
             // For each door on the door list, open a TCP connection to it, send OPEN_EMERG#, then close the connection
-            for (int i = 0; i < MAX_DOORS; i++)
+            for (int i = 0; i < MAX_DOOR; i++)
             {
                 if (failsafe_doors[i].door_port != 0)
                 {

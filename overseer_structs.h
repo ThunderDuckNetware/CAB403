@@ -4,6 +4,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
+#include "device_structs.h"
+
 
 //door struct
 typedef struct{

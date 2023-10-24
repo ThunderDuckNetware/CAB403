@@ -26,34 +26,39 @@ simulator.o: simulator.c
 	$(CC) -c $< $(CFLAGS)
 
 # Cardreader rules
-cardreader: cardreader.o
+cardreader: cardreader.o helper_func.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-cardreader.o: cardreader.c
+cardreader.o: cardreader.c helper_func.h
 	$(CC) -c $< $(CFLAGS)
 
 # Door rules (assuming door.c exists)
-door: door.o
+door: door.o helper_func.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-door.o: door.c
+door.o: door.c helper_func.h
 	$(CC) -c $< $(CFLAGS)
 
 # Callpoint rules (assuming callpoint.c exists)
-callpoint: callpoint.o
+callpoint: callpoint.o helper_func.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-callpoint.o: callpoint.c
+callpoint.o: callpoint.c helper_func.h
 	$(CC) -c $< $(CFLAGS)
 
 # Firealarm rules (assuming firealarm.c exists)
-firealarm: firealarm.o
+firealarm: firealarm.o helper_func.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-firealarm.o: firealarm.c
+firealarm.o: firealarm.c helper_func.h
 	$(CC) -c $< $(CFLAGS)
 
+# Tempsensor rules (assuming tempsensor.c exists)
+tempsensor: tempsensor.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
+tempsensor.o: tempsensor.c
+	$(CC) -c $< $(CFLAGS)
 
 clean:
 	rm -f $(ALL_COMPONENTS) *.o

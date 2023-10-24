@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 
     // Open and map shared memory
     void *shm = open_shared_memory(shm_path);
-    shm_callpoint *shm_cpt =  (shm_callpoint *)(shm + shm_offset);
+    shm_callpoint_t *shm_cpt =  (shm_callpoint_t *)(shm + shm_offset);
 
     // Parse fire alarm unit address and port
     char fire_alarm_addr_str[100];
