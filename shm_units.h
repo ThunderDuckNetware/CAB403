@@ -7,7 +7,7 @@ typedef struct {
     float temperature;
     pthread_mutex_t mutex;
     pthread_cond_t cond;
-} shm_temp_sense_cntrl;
+} shm_temp_sense_cntrl_t;
 
 // Shared memory struct for card reader
 typedef struct {
@@ -17,14 +17,14 @@ typedef struct {
     
     char response; // 'Y' or 'N' (or '\0' at first)
     pthread_cond_t response_cond;
-} shm_cardreader;
+} shm_cardreader_t;
 
 // Shared memory struct for fire alarm callpoint controller
 typedef struct {
     char status; // '-' for inactive, '*' for active
     pthread_mutex_t mutex;
     pthread_cond_t cond;
-} shm_callpoint;
+} shm_callpoint_t;
 
 // Shared memory struct for door controller
 typedef struct {
@@ -32,20 +32,20 @@ typedef struct {
     pthread_mutex_t mutex;
     pthread_cond_t cond_start;
     pthread_cond_t cond_end;
-} shm_door;
+} shm_door_t;
 
 // Shared memory struct for fire alarm unit
 typedef struct {
     char alarm; // '-' if inactive, 'A' if active
     pthread_mutex_t mutex;
     pthread_cond_t cond;
-} shm_firealarm;
+} shm_firealarm_t;
 
 // Shared memory struct for overseer
 typedef struct {
     char security_alarm; // '-' if inactive, 'A' if active
     pthread_mutex_t mutex;
     pthread_cond_t cond;
-} shm_overseer;
+} shm_overseer_t;
 
 #endif
