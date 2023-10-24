@@ -1,3 +1,9 @@
+/**
+ * Safety Critical System
+ * 
+ * 
+ * 
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -13,48 +19,56 @@
 
 #include "shm_units.h"
 #include "datagrams.h"
-#include "helper_func.h"
+#include "safety_funcs.h"
+
 
 int main(int argc, char **argv)
 {
-    // Check arguments
+    /* Check arguments */
     if (argc != 9)
     {
         fprintf(stderr, "Usage: {address:port} {temperature threshold} {min detections} {detection period (in microseconds)} {reserved argument} {shared memory path} {shared memory offset} {overseer address:port}");
-        exit(1);
+        return -1;
     }
 
-    // Read arguments
+    /* Read arguments */
     const char *fire_alarm_address_port = argv[1];
     int temperature_threshold = strToInt(argv[2]);
     int min_detections = strToInt(argv[3]);
     int detection_period = strToInt(argv[4]);
-    const char *reserved_argument = argv[5];
     const char *shm_path = argv[6];
     int shm_offset = strToInt(argv[7]);
     const char *overseer_addr_port = argv[8];
 
-    // Open and map shared memory
-    void *shm = open_shared_memory(shm_path);
+    /* Open and map shared memory */
+    char *shm = open_shared_memory(shm_path);
     shm_firealarm_t *shm_fire =  (shm_firealarm_t *)(shm + shm_offset);
 
-    // Bind UDP socket
+    /* Bind UDP socket */
     int fire_unit_fd = bind_udp_socket(fire_alarm_address_port);
 
-    // Open TCP socket to overseer
+    /* Open TCP socket to overseer */
     int overseer_fd = create_tcp_connection(overseer_addr_port, 0);
 
-    // Send Init message to overseer and close connection
+    /* Send Init message to overseer and close connection */
     char init_msg[100];
-    sprintf(init_msg, "FIREALARM %s HELLO#", fire_alarm_address_port);
+    if (sprintf(init_msg, "FIREALARM %s HELLO#", fire_alarm_address_port) < 0)
+    {
+        perror("sprintf");
+        return -2;
+    }
     if (send(overseer_fd, init_msg, strlen(init_msg), 0) == -1)
     {
         perror("send");
-        exit(1);
+        return -5;
     }
-    close(overseer_fd);
+    if (close(overseer_fd) == -1)
+    {
+        perror("close");
+        return -9;
+    }
 
-    // Init lists. Max 100 failsafe doors and 50 detections.
+    /* Init lists. Max 100 failsafe doors and 50 detections. */
     const int MAX_DOOR = 100;
     door_reg_dgram failsafe_doors[MAX_DOOR];
     memset(failsafe_doors, 0, sizeof(failsafe_doors));
@@ -62,59 +76,59 @@ int main(int argc, char **argv)
     struct timeval detections[MAX_DETECTIONS];
     memset(detections, 0, sizeof(detections));
 
-    // Normal Operation
+    /* Normal Operation */
     for (;;)
     {
-        // Receive the next UDP datagram
+        /* Receive the next UDP datagram */
         char recv_msg[100];
         int len = recvfrom(fire_unit_fd, recv_msg, 100, 0, NULL, NULL);
         if (len == -1)
         {
             perror("recvfrom");
-            exit(1);
+            return -6;
         } else if (len < 4) {
             fprintf(stderr, "Received datagram is too short\n");
             continue;
         }
 
         int emergency_flag = 0;
-        // Check the datagram and act accordingly
+        /* Check the datagram and act accordingly */
         if (strncmp(recv_msg, "FIRE", 4) == 0)
         {
             emergency_flag = 1;
 
         }else if (strncmp(recv_msg, "TEMP", 4) == 0)
         {
-            // Cast the datagram to a temp_update_datagram struct
+            /* Cast the datagram to a temp_update_datagram struct */
             temp_update_datagram *temp_update = (temp_update_datagram *)recv_msg;
 
-            // If the temperature is below the temperature threshold, loop back
+            /* If the temperature is below the temperature threshold, loop back */
             if (temp_update->temperature < temperature_threshold)
             {
                 continue;
             }
 
-            // Get current time
+            /* Get current time */
             struct timeval now;
             if (gettimeofday(&now, NULL) == -1)
             {
                 perror("gettimeofday");
-                exit(1);
+                return -7;
             }
 
-            // Calculate the time difference between the current time and the timestamp in the datagram
+            /* Calculate the time difference between the current time and the timestamp in the datagram */
             const int MICROSECONDS_IN_SECOND = 1000000;
             int delta_seconds = now.tv_sec - temp_update->timestamp.tv_sec;
             int delta_microseconds = now.tv_usec - temp_update->timestamp.tv_usec;
             int total_delta_microseconds = (delta_seconds * MICROSECONDS_IN_SECOND) + delta_microseconds;
 
-            // If the timestamp is more than {detection period} microseconds old, loop back
+            /* If the timestamp is more than {detection period} microseconds old, loop back */
             if (total_delta_microseconds > detection_period)
             {
                 continue;
             }
 
-            // Delete all timestamps older than {detection period} microseconds from the detection list
+            /* Delete all timestamps older than {detection period} microseconds from the detection list */
             int j = 0;
             for (int i = 0; i < MAX_DETECTIONS; i++)
             {
@@ -123,42 +137,42 @@ int main(int argc, char **argv)
                 int total_delta_microseconds = (delta_seconds * MICROSECONDS_IN_SECOND) + delta_microseconds;
                 if (total_delta_microseconds < detection_period)
                 {
-                    detections[j] = detections[i];  // Shift the timestamp to the front of the list
+                    detections[j] = detections[i];  /* Shift the timestamp to the front of the list */
                     j++;
                 }
             }
 
-            // Add the new timestamp to the detection list at the end of the sorted list
+            /* Add the new timestamp to the detection list at the end of the sorted list */
             detections[j] = temp_update->timestamp;
 
-            // Zero out the rest of the detection list
+            /* Zero out the rest of the detection list */
             for (; j < MAX_DETECTIONS; j++) {
                 detections[j].tv_sec = 0;
             }
 
-            // If there are now at least {min detections} entries in the detection list, skip to 6
+            /* If there are now at least {min detections} entries in the detection list, skip to 6 */
             int detection_count = 0;
             for (int i = 0; i < MAX_DETECTIONS; i++)
             {
-                if (detections[i].tv_sec != 0)  // If the timestamp is not zeroed out
+                if (detections[i].tv_sec != 0)  /* If the timestamp is not zeroed out */
                 {
                     detection_count++;
                 }
             }
-            if (detection_count >= min_detections) // If there are at least {min detections} entries in the detection list
+            if (detection_count >= min_detections) /* If there are at least {min detections} entries in the detection list */
             {
                 emergency_flag = 1;
             }
 
         } else if (strncmp(recv_msg, "DOOR", 4) == 0) {
-            // Cast the datagram to a door_reg_dgram struct
+            /* Cast the datagram to a door_reg_dgram struct */
             door_reg_dgram *new_door = (door_reg_dgram *)recv_msg;
 
-            // If the door is not already on the door list, add it
+            /* If the door is not already on the door list, add it */
             int doorExists = 0;
             for (int i = 0; i < MAX_DOOR; i++)
             {
-                if (failsafe_doors[i].door_port == new_door->door_port) // If the door is already on the door list
+                if (failsafe_doors[i].door_port == new_door->door_port) /* If the door is already on the door list */
                 {
                     doorExists = 1;
                     break;
@@ -168,14 +182,14 @@ int main(int argc, char **argv)
             {
                 for (int i = 0; i < MAX_DOOR; i++)
                 {
-                    if (failsafe_doors[i].door_port == 0) // Where there is an empty slot in the door list
+                    if (failsafe_doors[i].door_port == 0) /* Where there is an empty slot in the door list */
                     {
                         failsafe_doors[i] = *new_door;
                         break;
                     }
                 }
 
-                // Send a door confirmation datagram to the overseer
+                /* Send a door confirmation datagram to the overseer */
                 door_confirm_dgram confirm_door;
                 confirm_door.header[0] = 'D';
                 confirm_door.header[1] = 'R';
@@ -184,29 +198,45 @@ int main(int argc, char **argv)
                 confirm_door.door_addr = new_door->door_addr;
                 confirm_door.door_port = new_door->door_port;
 
-                // Open UDP socket to overseer and send confirmation datagram
+                /* Open UDP socket to overseer and send confirmation datagram */
                 int overseer_udp_fd = socket(AF_INET, SOCK_DGRAM, 0);
                 if (overseer_udp_fd == -1)
                 {
                     perror("socket");
-                    exit(1);
+                    return -3;
                 }
                 udp_send_to(overseer_udp_fd, &confirm_door, sizeof(confirm_door), overseer_addr_port);
 
-                // // Close UDP socket to overseer
-                close(overseer_udp_fd);
+                /* Close UDP socket to overseer */
+                if (close(overseer_udp_fd) == -1)
+                {
+                    perror("close");
+                    return -9;
+                }
             }
         }
 
-        // Step 6. Emergency Condition.
+        /* Step 6. Emergency Condition. */
         if (emergency_flag)
         {
-            pthread_mutex_lock(&shm_fire->mutex);
+            if (pthread_mutex_lock(&shm_fire->mutex) != 0)
+            {
+                perror("pthread_mutex_lock");
+                return -8;
+            }
             shm_fire->alarm = 'A';
-            pthread_mutex_unlock(&shm_fire->mutex);
-            pthread_cond_signal(&shm_fire->cond);
+            if (pthread_mutex_unlock(&shm_fire->mutex) != 0)
+            {
+                perror("pthread_mutex_unlock");
+                return -8;
+            }
+            if (pthread_cond_signal(&shm_fire->cond) != 0)
+            {
+                perror("pthread_cond_signal");
+                return -8;
+            }
 
-            // For each door on the door list, open a TCP connection to it, send OPEN_EMERG#, then close the connection
+            /* For each door on the door list, open a TCP connection to it, send OPEN_EMERG#, then close the connection */
             for (int i = 0; i < MAX_DOOR; i++)
             {
                 if (failsafe_doors[i].door_port != 0)
@@ -215,7 +245,7 @@ int main(int argc, char **argv)
                     if (door_fd == -1)
                     {
                         perror("socket");
-                        exit(1);
+                        return -3;
                     }
 
                     struct sockaddr_in door_addr;
@@ -227,29 +257,33 @@ int main(int argc, char **argv)
                     if (connect(door_fd, (struct sockaddr *)&door_addr, sizeof(door_addr)) == -1)
                     {
                         perror("connect");
-                        exit(1);
+                        return -3;
                     }
 
-                    // Send Init message to overseer and close connection
+                    /* Send Init message to overseer and close connection */
                     char emergency_msg[100] = "OPEN_EMERG#";
                     if (send(door_fd, emergency_msg, strlen(emergency_msg), 0) == -1)
                     {
                         perror("send");
-                        exit(1);
+                        return -6;
                     }
-                    close(door_fd);
+                    if (close(door_fd) == -1)
+                    {
+                        perror("close");
+                        return -9;
+                    }
                 }
             }
 
-            // Enter Emergency Loop
+            /* Enter Emergency Loop */
             for (;;) 
             {
-                // Receive the next UDP datagram
+                /* Receive the next UDP datagram */
                 int len = recvfrom(fire_unit_fd, recv_msg, 100, 0, NULL, NULL);
                 if (len == -1)
                 {
                     perror("recvfrom");
-                    exit(1);
+                    return -6;
                 } else if (len < 4) {
                     fprintf(stderr, "Received datagram is too short\n");
                     continue;
@@ -257,14 +291,14 @@ int main(int argc, char **argv)
 
                 if (strncmp(recv_msg, "DOOR", 4) == 0)
                 {
-                    // Open a TCP connection to the newly-registered door, send OPEN_EMERG#, then close the connection
+                    /* Open a TCP connection to the newly-registered door, send OPEN_EMERG#, then close the connection */
                     door_reg_dgram *new_door = (door_reg_dgram *)recv_msg;
 
                     int door_fd = socket(AF_INET, SOCK_STREAM, 0);
                     if (door_fd == -1)
                     {
                         perror("socket");
-                        exit(1);
+                        return -3;
                     }
 
                     struct sockaddr_in door_addr;
@@ -276,20 +310,24 @@ int main(int argc, char **argv)
                     if (connect(door_fd, (struct sockaddr *)&door_addr, sizeof(door_addr)) == -1)
                     {
                         perror("connect");
-                        exit(1);
+                        return -3;
                     }
 
-                    // Send OPEN_EMERG# message to door
+                    /* Send OPEN_EMERG# message to door */
                     char emergency_msg[100] = "OPEN_EMERG#";
                     if (send(door_fd, emergency_msg, strlen(emergency_msg), 0) == -1)
                     {
                         perror("send");
-                        exit(1);
+                        return -6;
                     }
-                    // Close TCP connection to door
-                    close(door_fd);
+                    /* Close TCP connection to door */
+                    if (close(door_fd) == -1)
+                    {
+                        perror("close");
+                        return -9;
+                    }
 
-                    // Send a door confirmation datagram to the overseer
+                    /* Send a door confirmation datagram to the overseer */
                     door_confirm_dgram confirm_door;
                     confirm_door.header[0] = 'D';
                     confirm_door.header[1] = 'R';
@@ -298,16 +336,20 @@ int main(int argc, char **argv)
                     confirm_door.door_addr = new_door->door_addr;
                     confirm_door.door_port = new_door->door_port;
 
-                    // Open UDP socket to overseer and send confirmation datagram
+                    /* Open UDP socket to overseer and send confirmation datagram */
                     int overseer_udp_fd = socket(AF_INET, SOCK_DGRAM, 0);
                     if (overseer_udp_fd == -1)
                     {
                         perror("socket");
-                        exit(1);
+                        return -3;
                     }
                     udp_send_to(overseer_udp_fd, &confirm_door, sizeof(confirm_door), overseer_addr_port);
 
-                    close(overseer_udp_fd);
+                    if (close(overseer_udp_fd) == -1)
+                    {
+                        perror("close");
+                        return -9;
+                    }
                 }         
             }
         }

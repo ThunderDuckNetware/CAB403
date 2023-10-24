@@ -1,15 +1,20 @@
 CC = gcc
 CFLAGS = -Wall
+CFLAGS_SECURE = -Wall -Wextra -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wpedantic -Werror
 LDFLAGS = -lrt -pthread
 
 # All components you want to compile with just `make`
 ALL_COMPONENTS = cardreader door callpoint firealarm simulator overseer
 
 all: $(ALL_COMPONENTS)
-# helper_func rules (assuming helper_func.c exists)
 
+# helper_func rules (assuming helper_func.c exists)
 helper_func.o: helper_func.c helper_func.h
 	$(CC) $(CFLAGS) -c helper_func.c
+
+# safety_funcs rules (assuming helper_func.c exists)
+safety_funcs.o: safety_funcs.c safety_funcs.h
+	$(CC) $(CFLAGS) -c safety_funcs.c
 
 # Overseer rules (assuming overseer.c exists)
 overseer: overseer.o helper_func.o
@@ -32,33 +37,34 @@ cardreader: cardreader.o helper_func.o
 cardreader.o: cardreader.c helper_func.h
 	$(CC) -c $< $(CFLAGS)
 
-# Door rules (assuming door.c exists)
-door: door.o helper_func.o
-	$(CC) -o $@ $^ $(LDFLAGS)
-
-door.o: door.c helper_func.h
-	$(CC) -c $< $(CFLAGS)
-
-# Callpoint rules (assuming callpoint.c exists)
-callpoint: callpoint.o helper_func.o
-	$(CC) -o $@ $^ $(LDFLAGS)
-
-callpoint.o: callpoint.c helper_func.h
-	$(CC) -c $< $(CFLAGS)
-
-# Firealarm rules (assuming firealarm.c exists)
-firealarm: firealarm.o helper_func.o
-	$(CC) -o $@ $^ $(LDFLAGS)
-
-firealarm.o: firealarm.c helper_func.h
-	$(CC) -c $< $(CFLAGS)
-
 # Tempsensor rules (assuming tempsensor.c exists)
 tempsensor: tempsensor.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 tempsensor.o: tempsensor.c
 	$(CC) -c $< $(CFLAGS)
+
+# SAFETY CRITICAL COMPONENTS
+# Door rules (assuming door.c exists)
+door: door.o safety_funcs.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+door.o: door.c safety_funcs.h
+	$(CC) -c $< $(CFLAGS_SECURE)
+
+# Callpoint rules (assuming callpoint.c exists)
+callpoint: callpoint.o safety_funcs.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+callpoint.o: callpoint.c safety_funcs.h
+	$(CC) -c $< $(CFLAGS_SECURE)
+
+# Firealarm rules (assuming firealarm.c exists)
+firealarm: firealarm.o safety_funcs.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+firealarm.o: firealarm.c safety_funcs.h
+	$(CC) -c $< $(CFLAGS_SECURE)
 
 clean:
 	rm -f $(ALL_COMPONENTS) *.o

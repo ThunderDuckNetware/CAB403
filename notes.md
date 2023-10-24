@@ -1,21 +1,28 @@
 # Cardreader
-- Not sure how to handle the connection failing. Currently that just exits out of the prog
 
 # Door
-- Not sure whether to listen on multiple addresses or just the one
-- Remove close secure code
-- what is the unspecified address/port
 
 # Callpoint
-- add error checking for all functions
-- can you infinite loop for security critical?
 - need to justify safety criticalness
 
 # Fire alarm unit
-- not sending data to overseer properly?
-- issue with sending packet stuck on loop for overseer
 - need safety critical
 
+# Tempsensor
+- need something to handle greater than 50 addresses
+- look into udp buffer
+
 # General
-- need to do cleanup on all nodes (closing sockets and shms)
 - remove all extra headers that aren't necessary
+- split out into safety critical
+
+check args - return -1
+sscanf -2
+socket -3
+inet_pton -4
+sprintf -5
+recfrom -6
+gettimeofday -7
+pthread -8
+sleep -9
+close -10
