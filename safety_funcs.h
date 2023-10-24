@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+
 /**
  * open_shared_memory - Open and map a shared memory segment.
  * 
@@ -148,4 +149,4 @@ int bind_udp_socket(const char* addr_port_str);
  */
 void udp_send_to(int udp_fd, const void *message, size_t len, const char *addr_port_str);
 
-#endif // HELPER_FUNC_H
+#endif
