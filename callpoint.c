@@ -1,9 +1,15 @@
 /**
  * Safety Critical System
  * 
+ * The main functions arguments are not extensively checked for errors.
+ * Justification: 
+ * The heavy use of main arguments is for simulation purposes. In the real-
+ * system the arguments will be hardcoded and thus no need for extensive error checking.
  * 
- * 
- * 
+ * There are two infinite loops with no clear exit conditions.
+ * Justification:
+ * It is necessary to have an infinite loop to keep the callpoint running and it would only stop when the system is shut down.
+ * It is also necessary for safety to continuously send the fire emergency packet if the callpoint is triggered.
 */
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,8 +1,14 @@
 /**
  * Safety Critical System
  * 
+ * The main functions arguments are not extensively checked for errors.
+ * Justification: 
+ * The heavy use of main arguments is for simulation purposes. In the real-
+ * system the arguments will be hardcoded and thus no need for extensive error checking.
  * 
- * 
+ * There is one infinite loop with no clear exit conditions.
+ * Justification:
+ * It is necessary for keeping the door running. The door should only stop when the system is shut down.
  * 
 */
 #include <stdio.h>

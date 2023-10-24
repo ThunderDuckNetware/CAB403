@@ -1,20 +1,11 @@
-# Cardreader
-
-# Door
-
-# Callpoint
-- need to justify safety criticalness
-
-# Fire alarm unit
-- need safety critical
-
 # Tempsensor
 - need something to handle greater than 50 addresses
 - look into udp buffer
 
-# General
-- remove all extra headers that aren't necessary
-- split out into safety critical
+# Safety
+- justify infinite loops
+- justify not checking arguments
+
 
 check args - return -1
 sscanf -2
