@@ -11,15 +11,11 @@
 #include <arpa/inet.h>
 #include <sys/time.h>
 
-
-
 #include "shm_units.h"
 #include "datagrams.h"
 #include "device_structs.h"
 #include "overseer_structs.h"
 #include "helper_func.h"
-
-
 
 
 void *overseer_tcp_accept_thread_func(void *arg);

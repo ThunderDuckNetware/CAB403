@@ -55,7 +55,6 @@ typedef struct {
 } udp_thread_params_t;
 
 
-//shift these to structs if we get a chance.
 typedef struct {
     database_t *database;
     fireAlarms_t *fireAlarms;

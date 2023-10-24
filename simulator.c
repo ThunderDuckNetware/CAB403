@@ -11,6 +11,7 @@
 
 #include "shm_units.h"
 #include "device_structs.h"
+#include "overseer_structs.h"
 #include "helper_func.h"
 #include "init_devices.h"
 

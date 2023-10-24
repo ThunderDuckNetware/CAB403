@@ -4,10 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "shm_units.h"
-#include "overseer_structs.h"
-#include "device_structs.h"
-
 
 #define MAX_CONFIG_WORDS 100   // maximum number of words in a string
 #define MAX_CONFIG_WORD_LEN 50 // maximum length of each word
@@ -16,8 +12,11 @@
 #define START_PORT 3000
 #define MAX_CLIENTS 100
 
+
 // Function prototypes
 void splitStringBySpaces(const char* str, char output[][MAX_CONFIG_WORD_LEN], int* count);
+
+void splitByColon(const char *str, char result[][MAX_CONFIG_WORD_LEN], int *count);
 
 door_access_t* appendValueDoor(door_access_t* door_arr, int size);
 

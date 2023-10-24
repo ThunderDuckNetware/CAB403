@@ -7,6 +7,9 @@
 #include <stdlib.h>    
 #include <string.h>    
 #include <stddef.h>    
+#include "shm_units.h"
+#include "device_structs.h"
+#include "overseer_structs.h"
 #include "helper_func.h"    
 
 
@@ -22,6 +25,21 @@ void splitStringBySpaces(const char* str, char output[][MAX_CONFIG_WORD_LEN], in
         i++;
     }
     *count = i;
+}
+
+void splitByColon(const char *str, char result[][MAX_CONFIG_WORD_LEN], int *count) {
+    char *token;
+    char *input = strdup(str);  // Create a copy of the input string, because strtok modifies the original string
+
+    token = strtok(input, ":\r\n");
+    while (token != NULL) {
+        strncpy(result[*count], token, MAX_CONFIG_WORD_LEN - 1);
+        result[*count][MAX_CONFIG_WORD_LEN - 1] = '\0'; // Make sure it's null-terminated
+        (*count)++;
+        token = strtok(NULL, ":\r\n");
+    }
+    
+    free(input);
 }
 
 door_access_t* appendValueDoor(door_access_t* arr, int size) {
@@ -98,23 +116,98 @@ void *handle_client(void *arg) {
     int sock = client_data->client_socket;
     char buffer[60];
     int bytes_read;
+    overseer_thread_data_t* shared_data = client_data->shared_data;
+
 
     //now we have shared access to the database we can populate it with data received over TCP
 
     while ((bytes_read = read(sock, buffer, sizeof(buffer) - 1)) > 0) {
         buffer[bytes_read] = '\0';
         printf("Received: %s\n", buffer);
+
         //split the buffer by the spaces
         char words[MAX_CONFIG_WORDS][MAX_CONFIG_WORD_LEN];
         int count = 0;
         splitStringBySpaces(buffer, words, &count);
-        if (strcmp("CARDREADER", words[0]) == 0){
-            printf("id: %s\nmessage: %s\n", words[1], words[2]);
-            //if hello then create the device object 
-        }else if(strcmp("DOOR", words[0]) == 0){
-            printf("id: %s\naddress: %s\nfail type: %s\n", words[1], words[2], words[3]);
-        }else if(strcmp("FIREALARM ", words[0]) == 0){
-            printf("addressport: %s\nmessage: %s\n", words[1], words[2]);
+        printf("type: .%s. id: .%s. msg:.%s.\n", words[0], words[1], words[2]);
+
+        if (strcmp("CARDREADER", words[0]) == 0) {
+            printf("is card reader\n");
+            //device is starting up
+            if (strcmp("HELLO#", words[2])==0){
+                //get the id
+                int id = atoi(words[1]);
+
+                //lock the thread
+                pthread_mutex_lock(&shared_data->cardReaders_mutex);
+                deviceCardReader_t* this_device = &shared_data->cardReaders->devices[shared_data->cardReaders->num_devices];
+                this_device->id = id;
+                printf("saved id: %d\n", this_device->id);
+                this_device->port = -1; // Unused.
+
+                //print the actual values
+                printf("OVERSEER TCP: Card Reader with id: %d initialized.\n", 
+                    shared_data->cardReaders->devices[shared_data->cardReaders->num_devices].id);
+
+                //unlock the data
+                shared_data->cardReaders->num_devices++;
+                pthread_mutex_unlock(&shared_data->cardReaders_mutex);
+            }
+
+        } else if (strcmp("DOOR", words[0]) == 0) {
+
+            //new door lets add it into the database
+            if(strcmp("FAIL_SAFE#", words[3]) == 0 || strcmp("FAIL_SECURE#", words[3]) == 0){
+
+                //get the port number
+                char substrings[MAX_CONFIG_WORDS][MAX_CONFIG_WORD_LEN];
+                int count = 0;
+                splitByColon(words[2], substrings, &count);
+                int port = atoi(substrings[1]);
+
+                //lock the thread
+                pthread_mutex_lock(&shared_data->doors_mutex);
+                deviceDoor_t* this_device = &shared_data->doors->devices[shared_data->doors->num_devices];
+                this_device->id = atoi(words[1]);
+                this_device->port = port; // port from address_port
+                this_device->fail_type = words[3];
+
+                //print the real values to test
+                printf("OVERSEER TCP: Door with id: %d at port: %d with fail type: %s initialized.\n",
+                shared_data->doors->devices[shared_data->doors->num_devices].id, 
+                shared_data->doors->devices[shared_data->doors->num_devices].port, 
+                shared_data->doors->devices[shared_data->doors->num_devices].fail_type);
+
+                //unlocked the database
+                shared_data->doors->num_devices++;
+                pthread_mutex_unlock(&shared_data->doors_mutex);
+            }
+
+
+        } else if (strcmp("FIREALARM", words[0]) == 0) {
+
+            if(strcmp("HELLO#", words[3]) == 0 )
+            {
+                //get the port number
+                char substrings[MAX_CONFIG_WORDS][MAX_CONFIG_WORD_LEN];
+                int count = 0;
+                splitByColon(words[1], substrings, &count);
+                int port = atoi(substrings[1]);
+
+                //lock the thread
+                pthread_mutex_lock(&shared_data->fireAlarms_mutex);
+                deviceFireAlarm_t* this_device = &shared_data->fireAlarms->devices[shared_data->fireAlarms->num_devices];
+                this_device->port = port; // Or extract port from address_port
+
+                //print the actual value
+                printf("OVERSEER TCP: Fire Alarm at address: %d initialized.\n", 
+                    shared_data->fireAlarms->devices[shared_data->fireAlarms->num_devices].port);
+                
+                //unlock
+                shared_data->fireAlarms->num_devices++;
+                pthread_mutex_unlock(&shared_data->fireAlarms_mutex);
+            }
+
         }
     }
 

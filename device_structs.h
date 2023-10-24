@@ -58,12 +58,12 @@ typedef struct {
 }deviceTempSensor_t;
 
 // Arrays for each device type
-deviceOverseer_t overseers[MAX_OVERSEER];
-deviceFireAlarm_t fireAlarms[MAX_FIRE_ALARM];
-deviceCardReader_t cardReaders[MAX_CARD_READERS];
-deviceDoor_t doors[MAX_DOORS];
-deviceCallpoint_t callpoints[MAX_CALLPOINTS];
-deviceTempSensor_t tempSensors[MAX_TEMP_SENSORS];
+//deviceOverseer_t overseers[MAX_OVERSEER];
+//deviceFireAlarm_t fireAlarms[MAX_FIRE_ALARM];
+//deviceCardReader_t cardReaders[MAX_CARD_READERS];
+//deviceDoor_t doors[MAX_DOORS];
+//deviceCallpoint_t callpoints[MAX_CALLPOINTS];
+//deviceTempSensor_t tempSensors[MAX_TEMP_SENSORS];
 
 ///////////////////////DEVICE COLLECTIONS//////////////////////
 typedef struct{
@@ -79,9 +79,9 @@ typedef struct{
 }overseers_t;
 
 typedef struct{
-    char* shm_name;
-    int num_devices;
-    deviceFireAlarm_t devices[MAX_FIRE_ALARM];
+        char* shm_name;
+        int num_devices;
+        deviceFireAlarm_t devices[MAX_FIRE_ALARM];
 }fireAlarms_t;
 
 typedef struct{
