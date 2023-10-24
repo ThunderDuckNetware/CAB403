@@ -6,7 +6,8 @@
 #include <sys/socket.h>
 #include <stdlib.h>    
 #include <string.h>    
-#include <stddef.h>    
+#include <stddef.h>
+
 #include "shm_units.h"
 #include "device_structs.h"
 #include "overseer_structs.h"
@@ -279,3 +280,4 @@ void *TCP_server_thread(overseer_thread_data_t *thread_data) {
     close(server_socket);
     return NULL;
 }
+
