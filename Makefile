@@ -6,12 +6,23 @@ LDFLAGS = -lrt -pthread
 ALL_COMPONENTS = cardreader door callpoint firealarm simulator overseer
 
 all: $(ALL_COMPONENTS)
+# helper_func rules (assuming helper_func.c exists)
 
-# simulator rules (assuming overseer.c exists)
-simulator: simulator.o
+helper_func.o: helper_func.c helper_func.h
+	$(CC) $(CFLAGS) -c helper_func.c
+
+# Overseer rules (assuming overseer.c exists)
+overseer: overseer.o helper_func.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-simulator.o: simulator.c
+overseer.o: overseer.c
+	$(CC) -c $< $(CFLAGS)	
+
+# simulator rules (assuming overseer.c exists)
+simulator: simulator.o helper_func.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+simulator.o: simulator.c 
 	$(CC) -c $< $(CFLAGS)
 
 # Cardreader rules
@@ -42,12 +53,7 @@ firealarm: firealarm.o
 firealarm.o: firealarm.c
 	$(CC) -c $< $(CFLAGS)
 
-# Overseer rules (assuming overseer.c exists)
-overseer: overseer.o
-	$(CC) -o $@ $^ $(LDFLAGS)
 
-overseer.o: overseer.c
-	$(CC) -c $< $(CFLAGS)
 
 clean:
 	rm -f $(ALL_COMPONENTS) *.o
