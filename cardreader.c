@@ -13,7 +13,7 @@
 #include <errno.h>
 
 #include "shm_units.h"
-#include "helper_func.h"
+#include "safety_funcs.h"
 
 
 int main(int argc, char **argv) 
@@ -71,19 +71,40 @@ int main(int argc, char **argv)
                 exit(1);
             }
 
-            // Receive message from overseer
-            char recv_msg[100];
-            int len = recv(overseer_fd, recv_msg, 100, 0);
-            if (len == -1) {
-                if (errno == EWOULDBLOCK || errno == EAGAIN || errno == ECONNREFUSED) {
-                    // Timeout
-                    shm_cr->response = 'N';
-                } else {
-                    perror("recv");
-                    exit(1);
+            // Receive message from overseer. Not using recv_until_hash because we want to set shm_cr->response
+            int recv_msg_len = 100;
+            char recv_msg[recv_msg_len];
+            int len;
+
+            int index = 0;
+            char buffer[1];
+            while (index < (recv_msg_len - 1)) {
+                // Receive one byte at a time
+                len = recv(overseer_fd, buffer, 1, 0);
+                if (len == -1) {
+                    if (errno == EWOULDBLOCK || errno == EAGAIN || errno == ECONNREFUSED) {
+                        // Timeout
+                        shm_cr->response = 'N';
+                    } else {
+                        perror("recv");
+                        exit(1);
+                    }
                 }
+                if (len == 0) {
+                    // Connection closed
+                    return -2;
+                }
+                // Store the byte in the message buffer
+                recv_msg[index] = buffer[0];
+                // Check if the byte is a '#' character. If so break out of the loop.
+                if (buffer[0] == '#') {
+                    break;
+                }
+
+                index++;
             }
-            recv_msg[len] = '\0';   // Null-terminate the received message
+            recv_msg[index + 1] = '\0'; // Null-terminate the string
+
 
             // Interpret message and set shm_cr->response appropriately
             if (strcmp(recv_msg, "ALLOWED#") == 0)

@@ -149,4 +149,17 @@ int bind_udp_socket(const char* addr_port_str);
  */
 void udp_send_to(int udp_fd, const void *message, size_t len, const char *addr_port_str);
 
+
+/**
+ * Receives a message from a connected socket one byte at a time until a '#' character is encountered
+ * or until the maximum message length is reached. The message is null-terminated.
+ * 
+ * @param fd The connected socket descriptor.
+ * @param msg Buffer to store the received message.
+ * @param msg_len Maximum length of the message.
+ * @return Number of bytes received on success, -1 on error, and -2 if the connection is closed by the peer.
+ */
+int recv_until_hash(int fd, char *msg, int msg_len);
+
+
 #endif

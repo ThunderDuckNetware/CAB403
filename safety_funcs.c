@@ -95,7 +95,7 @@ int create_tcp_connection(const char* addr_port_str, int timeout)
     if (sscanf(addr_port_str, "%99[^:]:%d", addr_str, &port) != 2) 
     {
         fprintf(stderr, "Failed to parse address and port from string: %s\n", addr_port_str);
-        exit(1);
+        return -2;
     }
 
     // Create TCP socket
@@ -103,7 +103,7 @@ int create_tcp_connection(const char* addr_port_str, int timeout)
     if (fd == -1) 
     {
         perror("socket");
-        exit(1);
+        return -3;
     }
 
     // Set timeout
@@ -115,7 +115,8 @@ int create_tcp_connection(const char* addr_port_str, int timeout)
 
         if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
             perror("setsockopt");
-            exit(1);
+            close(fd);
+            return -3;
         }
     }
 
@@ -126,14 +127,14 @@ int create_tcp_connection(const char* addr_port_str, int timeout)
     if (inet_pton(AF_INET, addr_str, &addr.sin_addr) != 1) {
         perror("inet_pton");
         close(fd);
-        exit(1);
+        return -4;
     }
 
     // Connect
     if (connect(fd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
         perror("connect");
         close(fd);
-        exit(1);
+        return -3;
     }
 
     return fd;
@@ -168,14 +169,14 @@ int create_listening_tcp_socket(const char* addr_port_str, int queue_size) {
     if (sscanf(addr_port_str, "%99[^:]:%d", addr_str, &port) != 2) 
     {
         fprintf(stderr, "Failed to parse address and port from string: %s\n", addr_port_str);
-        exit(1);
+        return -5;
     }
 
     // Create TCP socket
     int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (listen_fd == -1) {
         perror("socket");
-        exit(1);
+        return -3;
     }
 
     // Setup address
@@ -186,21 +187,21 @@ int create_listening_tcp_socket(const char* addr_port_str, int queue_size) {
     if (inet_pton(AF_INET, addr_str, &addr.sin_addr) != 1) {
         perror("inet_pton");
         close(listen_fd);
-        exit(1);
+        return -4;
     }
 
     // Bind
     if (bind(listen_fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
         perror("bind");
         close(listen_fd);
-        exit(1);
+        return -3;
     }
 
     // Listen
     if (listen(listen_fd, queue_size) == -1) {
         perror("listen");
         close(listen_fd);
-        exit(1);
+        return -3;
     }
 
     return listen_fd;
@@ -242,14 +243,14 @@ int strToInt(const char *str)
     if (str == endptr || *endptr != '\0') 
     {
         fprintf(stderr, "Invalid number provided: %s\n", str);
-        exit(EXIT_FAILURE);
+        return -2;;
     }
 
     // Check if the number is out of the range of int
     if (result > INT_MAX || result < INT_MIN) 
     {
         fprintf(stderr, "Number out of range for int: %s\n", str);
-        exit(EXIT_FAILURE);
+        return -2;
     }
 
     return (int)result;
@@ -275,7 +276,7 @@ int send_tcp_message(int sock_fd, const char *msg)
     if (send(sock_fd, msg, strlen(msg), 0) == -1)
     {
         perror("send");
-        exit(1);
+        return -3;
     }
 
     return 0;
@@ -307,7 +308,7 @@ int bind_udp_socket(const char* addr_port_str)
     if (sscanf(addr_port_str, "%99[^:]:%d", addr_str, &port) != 2) 
     {
         fprintf(stderr, "Failed to parse address and port from string: %s\n", addr_port_str);
-        exit(1);
+        return -2;
     }
 
     // Create UDP socket
@@ -315,7 +316,7 @@ int bind_udp_socket(const char* addr_port_str)
     if (fd == -1) 
     {
         perror("socket");
-        exit(1);
+        return -3;
     }
 
     struct sockaddr_in addr;
@@ -326,7 +327,7 @@ int bind_udp_socket(const char* addr_port_str)
     {
         perror("inet_pton");
         close(fd);
-        exit(1);
+        return -4;
     }
 
     // Bind
@@ -334,7 +335,7 @@ int bind_udp_socket(const char* addr_port_str)
     {
         perror("bind");
         close(fd);
-        exit(1);
+        return -3;
     }
 
     return fd;
@@ -357,7 +358,7 @@ int bind_udp_socket(const char* addr_port_str)
  *   - If there's an error in parsing the IP address and port, address conversion, 
  *     or sending the message, the function prints an error message and exits the program.
  */
-void udp_send_to(int udp_fd, const void *message, size_t len, const char *addr_port_str)
+int udp_send_to(int udp_fd, const void *message, size_t len, const char *addr_port_str)
 {
     // Extract address and port from the string
     char addr_str[100];
@@ -365,7 +366,7 @@ void udp_send_to(int udp_fd, const void *message, size_t len, const char *addr_p
     if (sscanf(addr_port_str, "%99[^:]:%d", addr_str, &port) != 2) 
     {
         fprintf(stderr, "Failed to parse address and port from string: %s\n", addr_port_str);
-        exit(1);
+        return -2;
     }
 
     struct sockaddr_in addr;
@@ -375,13 +376,54 @@ void udp_send_to(int udp_fd, const void *message, size_t len, const char *addr_p
     if (inet_pton(AF_INET, addr_str, &addr.sin_addr) != 1) 
     {
         perror("inet_pton");
-        exit(1);
+        return -4;
     }
 
     // Send the message using sendto()
     if (sendto(udp_fd, message, len, 0, (struct sockaddr *)&addr, sizeof(addr)) == -1)
     {
         perror("sendto");
-        exit(1);
+        return -3;
     }
+
+    return 0;
+}
+
+/**
+ * Receives a message from a connected socket one byte at a time until a '#' character is encountered
+ * or until the maximum message length is reached. The message is null-terminated.
+ * 
+ * @param fd The connected socket descriptor.
+ * @param msg Buffer to store the received message.
+ * @param msg_len Maximum length of the message.
+ * @return Number of bytes received on success, -1 on error, and -2 if the connection is closed by the peer.
+ */
+int recv_until_hash(int fd, char *msg, int msg_len) {
+    int index = 0;
+    char buffer[1];
+    int len;
+
+    while (index < (msg_len - 1)) {
+        // Receive one byte at a time
+        len = recv(fd, buffer, 1, 0);
+        if (len == -1) {
+            perror("recv");
+            return -3;
+        }
+        if (len == 0) {
+            // Connection closed
+            return -3;
+        }
+        // Store the byte in the message buffer
+        msg[index] = buffer[0];
+        // Check if the byte is a '#' character. If so break out of the loop.
+        if (buffer[0] == '#') {
+            break;
+        }
+
+        index++;
+    }
+    msg[index + 1] = '\0'; // Null-terminate the string
+
+    return index;
 }

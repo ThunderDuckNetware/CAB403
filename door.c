@@ -131,14 +131,9 @@ int main(int argc, char **argv)
         }
 
         /* read the message from the client */
-        char msg[100];
-        int len = recv(conn_fd, msg, sizeof(msg), 0);
-        if (len == -1)
-        {
-            perror("recv");
-            return -6;
-        }
-        msg[len] = '\0';
+        int msg_len = 100;
+        char msg[msg_len];
+        recv_until_hash(conn_fd, msg, msg_len);
 
         if (emergency_mode)
         {

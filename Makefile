@@ -31,10 +31,10 @@ simulator.o: simulator.c
 	$(CC) -c $< $(CFLAGS)
 
 # Cardreader rules
-cardreader: cardreader.o helper_func.o
+cardreader: cardreader.o safety_funcs.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-cardreader.o: cardreader.c helper_func.h
+cardreader.o: cardreader.c safety_funcs.h
 	$(CC) -c $< $(CFLAGS)
 
 # Tempsensor rules (assuming tempsensor.c exists)
